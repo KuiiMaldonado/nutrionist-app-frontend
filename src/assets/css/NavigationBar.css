@@ -1,0 +1,10 @@
+.custom-navbar {
+    background-color: black;
+}
+
+.custom-navLink {
+    color: #BeBBBB !important;
+    font-size: 1.5em !important;
+    letter-spacing: .03rem;
+    margin: 0em 0.06em;
+}

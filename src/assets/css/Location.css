@@ -1,0 +1,10 @@
+#locationMap {
+    border: 0;
+    height: 450px;
+}
+
+@media screen and (max-width: 800px) {
+    #locationMap {
+        height: 300px;
+    }
+}
