@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 import MainPage from "./pages/MainPage";
 import NavigationBar from "./components/NavigationBar";
 import Footer from "./components/Footer";
@@ -13,8 +13,6 @@ import ProfilePage from "./pages/ProfilePage";
 import {ApolloClient, ApolloProvider, InMemoryCache, createHttpLink} from '@apollo/client';
 import {setContext} from "@apollo/client/link/context";
 import NotFound from "./components/NotFound";
-import Measures from "./components/Measures";
-import ProfileRoutes from "./routes/ProfileRoutes";
 
 let uri;
 if (process.env.NODE_ENV === 'production')
@@ -51,7 +49,13 @@ function App() {
                   <Route path={'/meet-us'} element={<MeetUsPage/>}/>
                   <Route path={'/contact-us'} element={<ContactUsPage/>}/>
                   <Route path={'/login'} element={<LoginPage/>}/>
-                  <Route path={'/profile/*'} element={<ProfileRoutes/>}/>
+                  <Route path={'/profile'}>
+                      <Route index element={<Navigate to={'settings'}/>}/>
+                      <Route path={'measures'} element={<ProfilePage/>}/>
+                      <Route path={'diets'} element={<ProfilePage/>}/>
+                      <Route path={'trainings'} element={<ProfilePage/>}/>
+                      <Route path={'settings'} element={<ProfilePage/>}/>
+                  </Route>
                   <Route path={'*'} element={<NotFound/>}/>
               </Routes>
               <SocialMedia/>
