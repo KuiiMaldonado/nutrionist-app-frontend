@@ -12,6 +12,7 @@ import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import {ApolloClient, ApolloProvider, InMemoryCache, createHttpLink} from '@apollo/client';
 import {setContext} from "@apollo/client/link/context";
+import NotFound from "./components/NotFound";
 
 let uri;
 if (process.env.NODE_ENV === 'production')
@@ -44,26 +45,12 @@ function App() {
           <div className={'metpro-app'}>
               <NavigationBar/>
               <Routes>
-                  <Route
-                      path={'/'}
-                      element={<MainPage/>}
-                  />
-                  <Route
-                      path={'/meet-us'}
-                      element={<MeetUsPage/>}
-                  />
-                  <Route
-                      path={'/contact-us'}
-                      element={<ContactUsPage/>}
-                  />
-                  <Route
-                      path={'/login'}
-                      element={<LoginPage/>}
-                  />
-                  <Route
-                      path={'/profile'}
-                      element={<ProfilePage/>}
-                  />
+                  <Route path={'/'} element={<MainPage/>}/>
+                  <Route path={'/meet-us'} element={<MeetUsPage/>}/>
+                  <Route path={'/contact-us'} element={<ContactUsPage/>}/>
+                  <Route path={'/login'} element={<LoginPage/>}/>
+                  <Route path={'/profile'} element={<ProfilePage/>}/>
+                  <Route path={'*'} element={<NotFound/>}/>
               </Routes>
               <SocialMedia/>
               <Divider/>
