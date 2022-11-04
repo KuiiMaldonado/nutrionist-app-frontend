@@ -51,11 +51,11 @@ function App() {
                   <Route path={'/login'} element={<LoginPage/>}/>
                   <Route path={'/profile'}>
                       <Route index element={<Navigate to={'settings'}/>}/>
-                      <Route path={'measures'} element={<ProfilePage measures={true}/>}/>
-                      <Route path={'diets'} element={<ProfilePage diets={true}/>}/>
-                      <Route path={'trainings'} element={<ProfilePage trainings={true}/>}/>
-                      <Route path={'settings'} element={<ProfilePage settings={true}/>}/>
-                      <Route path={'manage'} element={<ProfilePage manage={true}/>}/>
+                      <Route path={'measures'} element={<ProfilePage section={'measures'}/>}/>
+                      <Route path={'diets'} element={<ProfilePage section={'diets'}/>}/>
+                      <Route path={'trainings'} element={<ProfilePage section={'trainings'}/>}/>
+                      <Route path={'settings'} element={<ProfilePage section={'settings'}/>}/>
+                      <Route path={'manage'} element={<ProfilePage section={'manage'}/>}/>
                   </Route>
                   <Route path={'*'} element={<NotFound/>}/>
               </Routes>

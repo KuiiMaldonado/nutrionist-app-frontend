@@ -14,6 +14,23 @@ const ProfilePage = (props) => {
     const {loading, data} = useQuery(GET_ME);
     let userData;
 
+    const renderSection = (props) => {
+        switch (props.section) {
+            case 'measures':
+                return <Measures/>;
+            case 'diets':
+                return <h1>Diets</h1>;
+            case 'trainings':
+                return <h1>Trainings</h1>;
+            case 'settings':
+                return <h1>Settings</h1>;
+            case 'manage':
+                return <h1>Manage users</h1>;
+            default:
+                return <h1>Settings</h1>
+        }
+    }
+
     if (!loading) {
         userData = data.me;
     }
@@ -32,15 +49,13 @@ const ProfilePage = (props) => {
     }
     return (
         <>
-            <Container>
+            <Container fluid>
                 <Row className={'d-flex align-items-center'}>
-                    <Col className={'col-lg-3'}>
+                    <Col className={'col-lg-2'}>
                         <ProfileSections userData={userData}/>
                     </Col>
                     <Col className={'offset-lg-1 col-lg-8'}>
-                        {props.measures && (
-                            <Measures/>
-                        )}
+                        {renderSection(props)}
                     </Col>
                 </Row>
             </Container>
