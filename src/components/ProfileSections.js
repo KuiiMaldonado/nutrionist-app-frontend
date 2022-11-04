@@ -31,26 +31,26 @@ const ProfileSections = (props) => {
             </Row>
             <Divider/>
             <Row className={'mt-1 sectionRow'}>
-                <Link to={'measures'} className={'d-inline-flex'}>
+                <Link to={'../measures'} className={'d-inline-flex'}>
                     <FontAwesomeIcon icon={faWeightScale} size={'xl'}/>
                     <h5 className={'ms-2'}>Measures</h5>
                 </Link>
             </Row>
             <Row className={'mt-1 sectionRow'}>
-                <Link to={'diets'} className={'d-inline-flex'}>
+                <Link to={'../diets'} className={'d-inline-flex'}>
                     <FontAwesomeIcon icon={faUtensils} size={'xl'}/>
                     <h5 className={'ms-2'}>Diets</h5>
                 </Link>
             </Row>
             <Row className={'mt-1 sectionRow'}>
-                <Link to={'trainings'} className={'d-inline-flex'}>
+                <Link to={'../trainings'} className={'d-inline-flex'}>
                     <FontAwesomeIcon icon={faDumbbell} size={'xl'}/>
                     <h5 className={'ms-2'}>Trainings</h5>
                 </Link>
             </Row>
             <Divider/>
             <Row className={'mt-1 sectionRow'}>
-                <Link to={'settings'} className={'d-inline-flex'}>
+                <Link to={'../settings'} className={'d-inline-flex'}>
                     <FontAwesomeIcon icon={faGear} size={'xl'}/>
                     <h5 className={'ms-2'}>Account</h5>
                 </Link>
@@ -59,7 +59,7 @@ const ProfileSections = (props) => {
                 <>
                     <Divider/>
                     <Row className={'mt-1 sectionRow'}>
-                        <Link to={'management'} className={'d-inline-flex'}>
+                        <Link to={'../management'} className={'d-inline-flex'}>
                             <FontAwesomeIcon icon={faUsersGear} size={'xl'}/>
                             <h5 className={'ms-2'}>Manage users</h5>
                         </Link>

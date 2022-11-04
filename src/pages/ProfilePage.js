@@ -1,12 +1,12 @@
 import React from "react";
 import ProfileSections from "../components/ProfileSections";
-import Measures from "../components/Measures";
 import {Col, Container, Row, Spinner} from "react-bootstrap";
 import Auth from "../utils/auth";
 import {useQuery} from "@apollo/client";
 import {GET_ME} from "../utils/queries";
+import Measures from "../components/Measures";
 
-const ProfilePage = () => {
+const ProfilePage = (props) => {
     if (!Auth.loggedIn()) {
         window.location.assign('/login');
     }
@@ -37,9 +37,11 @@ const ProfilePage = () => {
                     <Col className={'col-lg-3'}>
                         <ProfileSections userData={userData}/>
                     </Col>
-                    {/*<Col className={'offset-lg-1 col-lg-8'}>*/}
-                    {/*    <Measures/>*/}
-                    {/*</Col>*/}
+                    <Col className={'offset-lg-1 col-lg-8'}>
+                        {props.measures && (
+                            <Measures/>
+                        )}
+                    </Col>
                 </Row>
             </Container>
         </>

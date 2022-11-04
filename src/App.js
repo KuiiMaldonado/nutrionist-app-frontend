@@ -55,6 +55,7 @@ function App() {
                       <Route path={'diets'} element={<ProfilePage/>}/>
                       <Route path={'trainings'} element={<ProfilePage/>}/>
                       <Route path={'settings'} element={<ProfilePage/>}/>
+                      <Route path={'management'} element={<ProfilePage/>}/>
                   </Route>
                   <Route path={'*'} element={<NotFound/>}/>
               </Routes>
