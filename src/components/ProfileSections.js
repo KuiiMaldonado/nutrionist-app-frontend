@@ -59,7 +59,7 @@ const ProfileSections = (props) => {
                 <>
                     <Divider/>
                     <Row className={'mt-1 sectionRow'}>
-                        <Link to={'../management'} className={'d-inline-flex'}>
+                        <Link to={'../manage'} className={'d-inline-flex'}>
                             <FontAwesomeIcon icon={faUsersGear} size={'xl'}/>
                             <h5 className={'ms-2'}>Manage users</h5>
                         </Link>
