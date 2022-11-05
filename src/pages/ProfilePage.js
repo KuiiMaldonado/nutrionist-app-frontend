@@ -5,6 +5,7 @@ import Auth from "../utils/auth";
 import {useQuery} from "@apollo/client";
 import {GET_ME} from "../utils/queries";
 import Measures from "../components/Measures";
+import AccountSettings from "../components/AccountSettings";
 
 const ProfilePage = (props) => {
     if (!Auth.loggedIn()) {
@@ -23,7 +24,7 @@ const ProfilePage = (props) => {
             case 'trainings':
                 return <h1>Trainings</h1>;
             case 'settings':
-                return <h1>Settings</h1>;
+                return <AccountSettings user={userData}/>;
             case 'manage':
                 return <h1>Manage users</h1>;
             default:
@@ -50,7 +51,7 @@ const ProfilePage = (props) => {
     return (
         <>
             <Container fluid>
-                <Row className={'d-flex align-items-center'}>
+                <Row className={'d-flex mt-3'}>
                     <Col className={'col-lg-2'}>
                         <ProfileSections userData={userData}/>
                     </Col>

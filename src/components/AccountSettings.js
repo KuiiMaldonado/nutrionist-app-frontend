@@ -2,6 +2,8 @@ import React from "react";
 import {Alert, Button, Col, Container, Row} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import Divider from "./Divider";
+import {useMutation} from "@apollo/client";
+import {UPDATE_PROFILE} from "../utils/mutations";
 
 const AccountSettings = (props) => {
     const {register, handleSubmit, formState:{errors}} = useForm({
@@ -13,13 +15,33 @@ const AccountSettings = (props) => {
             firstName: props.user.firstName,
             lastName: props.user.lastName,
         }
-    })
+    });
+
+    const [updateProfile] = useMutation(UPDATE_PROFILE);
 
     const onSubmit = async (inputs, event) => {
         event.preventDefault();
         event.stopPropagation();
 
-        console.log(inputs);
+        let dataToUpdate = {
+            username: inputs.username,
+            email: inputs.email,
+            firstName: inputs.firstName,
+            lastName: inputs.lastName
+        };
+
+        if (inputs.password !== '') {
+            dataToUpdate.password = inputs.password;
+        }
+
+        try {
+            const {data} = await updateProfile({
+                variables: {userInput: dataToUpdate},
+            });
+            console.log(data);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (

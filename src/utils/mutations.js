@@ -14,3 +14,14 @@ export const LOGIN_USER = gql `
         }
     }
 `;
+
+export const UPDATE_PROFILE = gql `
+    mutation updateProfile($userInput: updatedProfileInput) {
+        updateProfile(userInput: $userInput) {
+            username
+            email
+            firstName
+            lastName
+        }
+    }
+`;
