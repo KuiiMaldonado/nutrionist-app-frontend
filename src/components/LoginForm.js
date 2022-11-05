@@ -23,7 +23,6 @@ const LoginForm = () => {
             const {data} = await login( {
                 variables: inputs,
             });
-            console.log(data);
             Auth.login(data.login.token);
         } catch (error) {
             setShowAlert(true);
