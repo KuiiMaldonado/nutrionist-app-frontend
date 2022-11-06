@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Alert, Button, Col, Container, Row} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import Divider from "./Divider";
 import {useMutation} from "@apollo/client";
 import {UPDATE_PROFILE} from "../utils/mutations";
+import {ProfileContext} from "../pages/ProfilePage";
 
 const AccountSettings = (props) => {
     const {register, handleSubmit, formState:{errors}} = useForm({
@@ -17,6 +18,7 @@ const AccountSettings = (props) => {
         }
     });
 
+    const [isUpdated, setIsUpdated] = useContext(ProfileContext);
     const [updateProfile] = useMutation(UPDATE_PROFILE);
 
     const onSubmit = async (inputs, event) => {
@@ -35,10 +37,13 @@ const AccountSettings = (props) => {
         }
 
         try {
-            const {data} = await updateProfile({
+            await updateProfile({
                 variables: {userInput: dataToUpdate},
             });
-            console.log(data);
+            setIsUpdated(true);
+            setTimeout(() => {
+                setIsUpdated(false);
+            }, 2000);
         } catch (error) {
             console.error(error);
         }
@@ -46,6 +51,9 @@ const AccountSettings = (props) => {
 
     return (
         <Container>
+            {isUpdated &&
+                <Alert variant={'info'} dismissible onClose={() => setIsUpdated(false)}>Profile updated successfully!</Alert>
+            }
             <Row>
                 <h2>Profile</h2>
             </Row>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {createContext, useEffect, useState} from "react";
 import ProfileSections from "../components/ProfileSections";
 import {Col, Container, Row, Spinner} from "react-bootstrap";
 import Auth from "../utils/auth";
@@ -6,14 +6,23 @@ import {useQuery} from "@apollo/client";
 import {GET_ME} from "../utils/queries";
 import Measures from "../components/Measures";
 import AccountSettings from "../components/AccountSettings";
+export const ProfileContext = createContext();
 
 const ProfilePage = (props) => {
     if (!Auth.loggedIn()) {
         window.location.assign('/login');
     }
-
-    const {loading, data} = useQuery(GET_ME);
     let userData;
+    const [isUpdated, setIsUpdated] = useState(false);
+    const {loading, data, refetch} = useQuery(GET_ME);
+
+    useEffect(() => {
+        if (isUpdated) {
+            refetch().then((result) => {
+                console.log('Re-fetching')
+            });
+        }
+    }, [isUpdated, refetch])
 
     const renderSection = (props) => {
         switch (props.section) {
@@ -50,16 +59,18 @@ const ProfilePage = (props) => {
     }
     return (
         <>
-            <Container fluid>
-                <Row className={'d-flex mt-3'}>
-                    <Col className={'col-lg-2'}>
-                        <ProfileSections userData={userData}/>
-                    </Col>
-                    <Col className={'offset-lg-1 col-lg-8'}>
-                        {renderSection(props)}
-                    </Col>
-                </Row>
-            </Container>
+            <ProfileContext.Provider value={[isUpdated, setIsUpdated]}>
+                <Container fluid>
+                    <Row className={'d-flex mt-3'}>
+                        <Col className={'col-lg-2'}>
+                            <ProfileSections userData={userData}/>
+                        </Col>
+                        <Col className={'offset-lg-1 col-lg-8'}>
+                            {renderSection(props)}
+                        </Col>
+                    </Row>
+                </Container>
+            </ProfileContext.Provider>
         </>
     )
 }
