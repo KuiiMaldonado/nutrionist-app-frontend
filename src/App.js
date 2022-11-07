@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 import MainPage from "./pages/MainPage";
 import NavigationBar from "./components/NavigationBar";
 import Footer from "./components/Footer";
@@ -12,9 +12,16 @@ import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import {ApolloClient, ApolloProvider, InMemoryCache, createHttpLink} from '@apollo/client';
 import {setContext} from "@apollo/client/link/context";
+import NotFound from "./components/NotFound";
+
+let uri;
+if (process.env.NODE_ENV === 'production')
+    uri = process.env.REACT_APP_GRAPH_SERVER;
+else
+    uri = 'http://localhost:3001/graphql';
 
 const httpLink = createHttpLink({
-    uri: process.env.REACT_APP_GRAPH_SERVER,
+    uri: uri,
 });
 
 const authLink = setContext((_, {headers}) => {
@@ -35,38 +42,26 @@ const client = new ApolloClient({
 function App() {
   return (
       <ApolloProvider client={client}>
-
           <div className={'metpro-app'}>
-              <Router>
-                  <>
-                      <NavigationBar/>
-                      <Routes>
-                          <Route
-                              path={'/'}
-                              element={<MainPage/>}
-                          />
-                          <Route
-                              path={'/meet-us'}
-                              element={<MeetUsPage/>}
-                          />
-                          <Route
-                              path={'/contact-us'}
-                              element={<ContactUsPage/>}
-                          />
-                          <Route
-                              path={'/login'}
-                              element={<LoginPage/>}
-                          />
-                          <Route
-                              path={'/profile'}
-                              element={<ProfilePage/>}
-                          />
-                      </Routes>
-                      <SocialMedia/>
-                      <Divider/>
-                      <Footer/>
-                  </>
-              </Router>
+              <NavigationBar/>
+              <Routes>
+                  <Route path={'/'} element={<MainPage/>}/>
+                  <Route path={'/meet-us'} element={<MeetUsPage/>}/>
+                  <Route path={'/contact-us'} element={<ContactUsPage/>}/>
+                  <Route path={'/login'} element={<LoginPage/>}/>
+                  <Route path={'/profile'}>
+                      <Route index element={<Navigate to={'settings'}/>}/>
+                      <Route path={'measures'} element={<ProfilePage section={'measures'}/>}/>
+                      <Route path={'diets'} element={<ProfilePage section={'diets'}/>}/>
+                      <Route path={'trainings'} element={<ProfilePage section={'trainings'}/>}/>
+                      <Route path={'settings'} element={<ProfilePage section={'settings'}/>}/>
+                      <Route path={'manage'} element={<ProfilePage section={'manage'}/>}/>
+                  </Route>
+                  <Route path={'*'} element={<NotFound/>}/>
+              </Routes>
+              <SocialMedia/>
+              <Divider/>
+              <Footer/>
           </div>
       </ApolloProvider>
   );

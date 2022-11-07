@@ -1,18 +1,45 @@
-import React from "react";
+import React, {createContext, useEffect, useState} from "react";
 import ProfileSections from "../components/ProfileSections";
-import Measures from "../components/Measures";
 import {Col, Container, Row, Spinner} from "react-bootstrap";
 import Auth from "../utils/auth";
 import {useQuery} from "@apollo/client";
 import {GET_ME} from "../utils/queries";
+import Measures from "../components/Measures";
+import AccountSettings from "../components/AccountSettings";
+export const ProfileContext = createContext();
 
-const ProfilePage = () => {
+const ProfilePage = (props) => {
     if (!Auth.loggedIn()) {
         window.location.assign('/login');
     }
-
-    const {loading, data} = useQuery(GET_ME);
     let userData;
+    const [isUpdated, setIsUpdated] = useState(false);
+    const {loading, data, refetch} = useQuery(GET_ME);
+
+    useEffect(() => {
+        if (isUpdated) {
+            refetch().then((result) => {
+                console.log('Re-fetching')
+            });
+        }
+    }, [isUpdated, refetch])
+
+    const renderSection = (props) => {
+        switch (props.section) {
+            case 'measures':
+                return <Measures/>;
+            case 'diets':
+                return <h1>Diets</h1>;
+            case 'trainings':
+                return <h1>Trainings</h1>;
+            case 'settings':
+                return <AccountSettings user={userData}/>;
+            case 'manage':
+                return <h1>Manage users</h1>;
+            default:
+                return <h1>Settings</h1>
+        }
+    }
 
     if (!loading) {
         userData = data.me;
@@ -32,16 +59,18 @@ const ProfilePage = () => {
     }
     return (
         <>
-            <Container>
-                <Row className={'d-flex align-items-center'}>
-                    <Col className={'col-lg-3'}>
-                        <ProfileSections userData={userData}/>
-                    </Col>
-                    {/*<Col className={'offset-lg-1 col-lg-8'}>*/}
-                    {/*    <Measures/>*/}
-                    {/*</Col>*/}
-                </Row>
-            </Container>
+            <ProfileContext.Provider value={[isUpdated, setIsUpdated]}>
+                <Container fluid>
+                    <Row className={'d-flex mt-3'}>
+                        <Col className={'col-lg-2'}>
+                            <ProfileSections userData={userData}/>
+                        </Col>
+                        <Col className={'offset-lg-1 col-lg-8'}>
+                            {renderSection(props)}
+                        </Col>
+                    </Row>
+                </Container>
+            </ProfileContext.Provider>
         </>
     )
 }
