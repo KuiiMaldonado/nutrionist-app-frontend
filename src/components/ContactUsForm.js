@@ -1,13 +1,11 @@
 import React, {useState} from "react";
 import {Alert, Container} from "react-bootstrap";
 import {useForm} from 'react-hook-form';
-import emailJS from '@emailjs/browser';
+import axios from "axios";
 
 import EmailSentModal from "./EmailSentModal";
 import form_label_image from "../assets/images/form_label_image.jpeg";
 import '../assets/css/ContactUsForm.css'
-
-emailJS.init('Owx8_rxsZ4E2LYPUg');
 
 const ContactUsForm = () => {
     const [showModal, setShowModal] = useState(false);
@@ -28,8 +26,7 @@ const ContactUsForm = () => {
         try {
             setModalTitle('Sending your message!')
             handleShow();
-            await emailJS.send('contact_form_service', 'contact_form_template', data);
-            console.log('Success!');
+            await axios.post('http://localhost:3001/api/emailJS/sendContactEmail', data);
             resetField('fullName');
             resetField('user_email');
             resetField('phoneNumber');
@@ -41,7 +38,7 @@ const ContactUsForm = () => {
             setModalTitle('Oooops something went wrong');
             setModalBody('Please try again!');
             setIsSendingEmail(false);
-            console.error(error);
+            console.error(error.response.data);
         }
 
     };
