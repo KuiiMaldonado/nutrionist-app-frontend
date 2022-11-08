@@ -41,7 +41,13 @@ class AuthService {
 
     isAdmin() {
         const token = this.getToken();
-        return token.isAdmin;
+        try {
+            const decoded = decode(token);
+            return decoded.data.isAdmin;
+        } catch (error) {
+            console.error(error);
+        }
+        return false;
     }
 }
 
