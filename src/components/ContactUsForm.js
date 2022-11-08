@@ -26,7 +26,13 @@ const ContactUsForm = () => {
         try {
             setModalTitle('Sending your message!')
             handleShow();
-            await axios.post('http://localhost:3001/api/emailJS/sendContactEmail', data);
+            let baseUrl;
+            if (process.env.NODE_ENV === 'production')
+                baseUrl = process.env.REACT_APP_BACKEND_SERVER;
+            else
+                baseUrl = 'http://localhost:3001';
+            let url = baseUrl + '/api/emailJS/sendContactEmail';
+            await axios.post(url, data);
             resetField('fullName');
             resetField('user_email');
             resetField('phoneNumber');
