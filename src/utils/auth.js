@@ -38,6 +38,11 @@ class AuthService {
         localStorage.removeItem('id_token');
         window.location.assign('/');
     }
+
+    isAdmin() {
+        const token = this.getToken();
+        return token.isAdmin;
+    }
 }
 
 export default new AuthService();
