@@ -1,6 +1,6 @@
 import React, {createContext, useEffect, useState} from "react";
 import ProfileSections from "../components/ProfileSections";
-import {Col, Container, Row, Spinner} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import Auth from "../utils/auth";
 import {useQuery} from "@apollo/client";
 import {GET_ME} from "../utils/queries";
