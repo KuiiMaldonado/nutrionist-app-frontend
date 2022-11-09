@@ -15,6 +15,17 @@ export const LOGIN_USER = gql `
     }
 `;
 
+export const ADD_PROFILE = gql`
+    mutation addProfile($userInput: updatedProfileInput) {
+        addProfile(userInput: $userInput) {
+            username
+            email
+            firstName
+            lastName
+        }
+    }
+`;
+
 export const UPDATE_PROFILE = gql `
     mutation updateProfile($userInput: updatedProfileInput) {
         updateProfile(userInput: $userInput) {
