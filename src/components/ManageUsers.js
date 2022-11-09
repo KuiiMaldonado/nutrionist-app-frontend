@@ -9,6 +9,7 @@ import {faUserPen, faUserSlash, faUserPlus} from '@fortawesome/free-solid-svg-ic
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import '../assets/css/ManageUsers.css';
+import Divider from "./Divider";
 
 const ManageUsers = () => {
     if (!Auth.loggedIn()) {
@@ -82,6 +83,7 @@ const ManageUsers = () => {
             <Row>
                 <h2>Manage users</h2>
             </Row>
+            <Divider/>
             <ListGroup as={'ul'}>
                 {data.users.map((user) => {
                     return (
