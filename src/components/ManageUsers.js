@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Container, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import Auth from "../utils/auth";
-import {useQuery} from "@apollo/client";
+import {useQuery, useMutation} from "@apollo/client";
 import {GET_ALL_USERS} from "../utils/queries";
+import {DELETE_PROFILE} from "../utils/mutations";
 import LoadingSpinners from "./LoadingSpinners";
 import {faUserPen, faUserSlash, faUserPlus} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -18,7 +19,27 @@ const ManageUsers = () => {
         window.location.assign('/profile');
     }
 
-    const {loading, data} = useQuery(GET_ALL_USERS);
+    const {loading, data, refetch} = useQuery(GET_ALL_USERS);
+    const [deleteProfile] = useMutation(DELETE_PROFILE);
+
+    useEffect(() => {
+        refetch().then((result) => {
+            console.log('Re-fetching')
+        });
+    });
+
+    const handleDeleteUser = async (userId) => {
+        try {
+            const {data} = await deleteProfile({
+                variables: {userId: userId}
+            });
+            if(!data) {
+                throw new Error('Something went wrong');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     if (loading) {
         return (
@@ -44,7 +65,7 @@ const ManageUsers = () => {
                                 <button className={'user-button edit'}>
                                     <FontAwesomeIcon icon={faUserPen} size={'xl'}/>
                                 </button>
-                                <button className={'user-button delete'}>
+                                <button className={'user-button delete'} onClick={() => handleDeleteUser(user._id)}>
                                     <FontAwesomeIcon icon={faUserSlash} size={'xl'}/>
                                 </button>
                             </div>
