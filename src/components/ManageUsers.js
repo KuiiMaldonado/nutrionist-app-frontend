@@ -105,7 +105,7 @@ const ManageUsers = () => {
                 })}
                 <ListGroupItem as={'li'}>
                     <div className={'text-center'}>
-                        <button className={'user-button add'}>
+                        <button className={'user-button add'} onClick={() => window.location.assign(window.location.pathname + '/addUser')}>
                             <FontAwesomeIcon icon={faUserPlus} size={'xl'}/>
                         </button>
                     </div>
