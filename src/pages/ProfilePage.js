@@ -8,6 +8,7 @@ import Measures from "../components/Measures";
 import AccountSettings from "../components/AccountSettings";
 import ManageUsers from "../components/ManageUsers";
 import LoadingSpinners from "../components/LoadingSpinners";
+import AddUser from "../components/AddUser";
 export const ProfileContext = createContext();
 
 const ProfilePage = (props) => {
@@ -38,6 +39,8 @@ const ProfilePage = (props) => {
                 return <AccountSettings user={userData}/>;
             case 'manage':
                 return <ManageUsers/>;
+            case 'addUser':
+                return <AddUser/>;
             default:
                 return <h1>Settings</h1>
         }
