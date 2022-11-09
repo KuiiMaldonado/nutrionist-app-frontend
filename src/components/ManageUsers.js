@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import {Container, ListGroup, ListGroupItem, Row} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Button, Container, ListGroup, ListGroupItem, Modal, Row} from "react-bootstrap";
 import Auth from "../utils/auth";
 import {useQuery, useMutation} from "@apollo/client";
 import {GET_ALL_USERS} from "../utils/queries";
@@ -21,6 +21,8 @@ const ManageUsers = () => {
 
     const {loading, data, refetch} = useQuery(GET_ALL_USERS);
     const [deleteProfile] = useMutation(DELETE_PROFILE);
+    const [showModal, setShowModal] = useState(false);
+    const [deleteId, setDeleteId] = useState('');
 
     useEffect(() => {
         refetch().then((result) => {
@@ -28,17 +30,26 @@ const ManageUsers = () => {
         });
     });
 
-    const handleDeleteUser = async (userId) => {
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
+
+    const handleModal = async (userId) => {
+        handleShow();
+        setDeleteId(userId);
+    }
+
+    const handleDeleteUser = async () => {
         try {
             const {data} = await deleteProfile({
-                variables: {userId: userId}
+                variables: {userId: deleteId}
             });
-            if(!data) {
+            if (!data) {
                 throw new Error('Something went wrong');
             }
         } catch (error) {
             console.error(error);
         }
+        handleClose();
     }
 
     if (loading) {
@@ -48,6 +59,26 @@ const ManageUsers = () => {
     }
     return (
         <Container>
+            <Modal centered show={showModal}>
+                <Modal.Header>
+                    <Modal.Title>Warning!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <h5>Deleting user</h5>
+                    <p>
+                        You are about to delete the user. This action can not be undone.
+                        Do you want to proceed?
+                    </p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={'secondary'} onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button variant={'danger'} onClick={handleDeleteUser}>
+                        Delete
+                    </Button>
+                </Modal.Footer>
+            </Modal>
             <Row>
                 <h2>Manage users</h2>
             </Row>
@@ -65,7 +96,7 @@ const ManageUsers = () => {
                                 <button className={'user-button edit'}>
                                     <FontAwesomeIcon icon={faUserPen} size={'xl'}/>
                                 </button>
-                                <button className={'user-button delete'} onClick={() => handleDeleteUser(user._id)}>
+                                <button className={'user-button delete'} onClick={() => handleModal(user._id)}>
                                     <FontAwesomeIcon icon={faUserSlash} size={'xl'}/>
                                 </button>
                             </div>
