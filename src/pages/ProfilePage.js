@@ -6,6 +6,8 @@ import {useQuery} from "@apollo/client";
 import {GET_ME} from "../utils/queries";
 import Measures from "../components/Measures";
 import AccountSettings from "../components/AccountSettings";
+import ManageUsers from "../components/ManageUsers";
+import LoadingSpinners from "../components/LoadingSpinners";
 export const ProfileContext = createContext();
 
 const ProfilePage = (props) => {
@@ -35,7 +37,7 @@ const ProfilePage = (props) => {
             case 'settings':
                 return <AccountSettings user={userData}/>;
             case 'manage':
-                return <h1>Manage users</h1>;
+                return <ManageUsers/>;
             default:
                 return <h1>Settings</h1>
         }
@@ -46,15 +48,7 @@ const ProfilePage = (props) => {
     }
     else {
         return (
-            <Container>
-                <Row>
-                    <Col className={'text-center mt-5'}>
-                        <Spinner animation="grow"/>
-                        <Spinner animation="grow"/>
-                        <Spinner animation="grow"/>
-                    </Col>
-                </Row>
-            </Container>
+            <LoadingSpinners/>
         );
     }
     return (
