@@ -13,6 +13,7 @@ import ProfilePage from "./pages/ProfilePage";
 import {ApolloClient, ApolloProvider, InMemoryCache, createHttpLink} from '@apollo/client';
 import {setContext} from "@apollo/client/link/context";
 import NotFound from "./components/NotFound";
+import AddUser from "./components/AddUser";
 
 let uri;
 if (process.env.NODE_ENV === 'production')
@@ -55,7 +56,10 @@ function App() {
                       <Route path={'diets'} element={<ProfilePage section={'diets'}/>}/>
                       <Route path={'trainings'} element={<ProfilePage section={'trainings'}/>}/>
                       <Route path={'settings'} element={<ProfilePage section={'settings'}/>}/>
-                      <Route path={'manage'} element={<ProfilePage section={'manage'}/>}/>
+                      <Route path={'manage'}>
+                          <Route index element={<ProfilePage section={'manage'}/>}/>
+                          <Route path={'addUser'} element={<ProfilePage section={'addUser'}/>}/>
+                      </Route>
                   </Route>
                   <Route path={'*'} element={<NotFound/>}/>
               </Routes>
