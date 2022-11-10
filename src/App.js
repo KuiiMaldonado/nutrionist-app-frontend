@@ -59,6 +59,7 @@ function App() {
                       <Route path={'manage'}>
                           <Route index element={<ProfilePage section={'manage'}/>}/>
                           <Route path={'addUser'} element={<ProfilePage section={'addUser'}/>}/>
+                          <Route path={'editUser'} element={<ProfilePage section={'editUser'}/>}/>
                       </Route>
                   </Route>
                   <Route path={'*'} element={<NotFound/>}/>
