@@ -4,6 +4,7 @@ import {useForm} from "react-hook-form";
 import {useMutation} from "@apollo/client";
 import {ADD_PROFILE} from "../utils/mutations";
 import Divider from "./Divider";
+import LoadingSpinners from "./LoadingSpinners";
 
 const AddUser = () => {
     const {register, resetField, handleSubmit, formState:{errors, isValid}} = useForm({
@@ -12,7 +13,7 @@ const AddUser = () => {
     });
 
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-    const [addProfile] = useMutation(ADD_PROFILE);
+    const [addProfile, {loading}] = useMutation(ADD_PROFILE);
 
     const onSubmit = async (inputs, event) => {
         event.preventDefault();
@@ -43,6 +44,11 @@ const AddUser = () => {
         } catch (error) {
             console.error(error);
         }
+    }
+    if (loading) {
+        return (
+            <LoadingSpinners/>
+        );
     }
     return (
         <Container>
