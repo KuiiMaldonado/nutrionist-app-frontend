@@ -10,6 +10,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import '../assets/css/ManageUsers.css';
 import Divider from "./Divider";
+import {useNavigate} from "react-router-dom";
 
 const ManageUsers = () => {
     if (!Auth.loggedIn()) {
@@ -24,6 +25,7 @@ const ManageUsers = () => {
     const [deleteProfile] = useMutation(DELETE_PROFILE);
     const [showModal, setShowModal] = useState(false);
     const [deleteId, setDeleteId] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         refetch().then((result) => {
@@ -95,7 +97,7 @@ const ManageUsers = () => {
                                 {user.email}
                             </div>
                             <div>
-                                <button className={'user-button edit'}>
+                                <button className={'user-button edit'} onClick={() => navigate('editUser', {state: {id: user._id}})}>
                                     <FontAwesomeIcon icon={faUserPen} size={'xl'}/>
                                 </button>
                                 <button className={'user-button delete'} onClick={() => handleModal(user._id)}>
