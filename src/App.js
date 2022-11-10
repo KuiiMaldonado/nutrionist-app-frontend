@@ -13,7 +13,6 @@ import ProfilePage from "./pages/ProfilePage";
 import {ApolloClient, ApolloProvider, InMemoryCache, createHttpLink} from '@apollo/client';
 import {setContext} from "@apollo/client/link/context";
 import NotFound from "./components/NotFound";
-import AddUser from "./components/AddUser";
 
 let uri;
 if (process.env.NODE_ENV === 'production')
