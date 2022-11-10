@@ -11,6 +11,27 @@ export const GET_ME = gql`
             lastName
             birthDate
             isAdmin
+            userMeasures {
+                _id
+                date
+                weight
+                bodyFatPercentage
+                leanBodyWeight
+                bodyFat
+                bodyType
+            }
+        }
+    }
+`;
+
+export const GET_USER = gql`
+    query user {
+        user {
+            _id
+            username
+            email
+            firstName
+            lastName
         }
     }
 `;
