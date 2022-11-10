@@ -1,9 +1,14 @@
 import React from "react";
-import {Table} from "react-bootstrap";
+import {Container, Row, Table} from "react-bootstrap";
+import Divider from "./Divider";
 
-const Measures = () => {
+const Measures = (props) => {
     return (
-        <>
+        <Container>
+            <Row>
+                <h2>Measures</h2>
+            </Row>
+            <Divider/>
             <div className={'table-responsive'}>
                 <Table striped>
                     <thead>
@@ -17,26 +22,22 @@ const Measures = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>10/07/2022</td>
-                        <td>74.80</td>
-                        <td>21.11%</td>
-                        <td>59.01</td>
-                        <td>15.79</td>
-                        <td>Durnin</td>
-                    </tr>
-                    <tr>
-                        <td>09/09/2022</td>
-                        <td>75.80</td>
-                        <td>17.86%</td>
-                        <td>62.26</td>
-                        <td>13.54</td>
-                        <td>Durnin</td>
-                    </tr>
+                    {props.measures.map((measure) => {
+                        return (
+                          <tr key={measure._id}>
+                              <td>{measure.date}</td>
+                              <td>{measure.weight}</td>
+                              <td>{measure.bodyFatPercentage}</td>
+                              <td>{measure.leanBodyWeight}</td>
+                              <td>{measure.bodyFat}</td>
+                              <td>{measure.bodyType}</td>
+                          </tr>
+                        );
+                    })}
                     </tbody>
                 </Table>
             </div>
-        </>
+        </Container>
     );
 }
 
