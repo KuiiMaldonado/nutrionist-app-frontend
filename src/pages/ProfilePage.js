@@ -9,6 +9,7 @@ import AccountSettings from "../components/AccountSettings";
 import ManageUsers from "../components/ManageUsers";
 import LoadingSpinners from "../components/LoadingSpinners";
 import AddUser from "../components/AddUser";
+import EditUser from "../components/EditUser";
 export const ProfileContext = createContext();
 
 const ProfilePage = (props) => {
@@ -30,7 +31,7 @@ const ProfilePage = (props) => {
     const renderSection = (props) => {
         switch (props.section) {
             case 'measures':
-                return <Measures/>;
+                return <Measures measures={userData.userMeasures}/>;
             case 'diets':
                 return <h1>Diets</h1>;
             case 'trainings':
@@ -41,6 +42,8 @@ const ProfilePage = (props) => {
                 return <ManageUsers/>;
             case 'addUser':
                 return <AddUser/>;
+            case 'editUser':
+                return <EditUser/>
             default:
                 return <h1>Settings</h1>
         }
