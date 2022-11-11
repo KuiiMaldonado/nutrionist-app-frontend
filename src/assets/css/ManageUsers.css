@@ -16,3 +16,8 @@
 .add {
     color: #6E8F73;
 }
+
+#profileName {
+    font-style: italic;
+    color: #076E1F;
+}
