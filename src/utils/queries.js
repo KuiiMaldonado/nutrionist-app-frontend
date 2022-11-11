@@ -25,13 +25,22 @@ export const GET_ME = gql`
 `;
 
 export const GET_USER = gql`
-    query user {
-        user {
+    query user($userId: ID!) {
+        user(userId: $userId) {
             _id
             username
             email
             firstName
             lastName
+            userMeasures {
+                _id
+                date
+                weight
+                bodyFatPercentage
+                leanBodyWeight
+                bodyFat
+                bodyType
+            }
         }
     }
 `;
