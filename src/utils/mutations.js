@@ -44,3 +44,19 @@ export const DELETE_PROFILE = gql`
         }
     }
 `;
+
+export const DELETE_MEASURE = gql`
+    mutation deleteMeasure($measureId: ID!) {
+        deleteMeasure(measureId: $measureId) {
+            userMeasures {
+                _id
+                date
+                weight
+                bodyFatPercentage
+                leanBodyWeight
+                bodyFat
+                bodyType
+            }
+        }
+    }
+`;
