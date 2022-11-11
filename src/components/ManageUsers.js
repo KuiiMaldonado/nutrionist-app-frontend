@@ -29,7 +29,7 @@ const ManageUsers = () => {
 
     useEffect(() => {
         refetch().then((result) => {
-            console.log('Re-fetching')
+
         });
     });
 
