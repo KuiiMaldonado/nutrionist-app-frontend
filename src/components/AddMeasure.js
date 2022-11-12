@@ -12,7 +12,7 @@ const AddMeasure = () => {
     const onSubmit = async (inputs, event) => {
         event.preventDefault();
         event.stopPropagation();
-        console.log('onSubmit');
+        console.log(inputs);
     }
     return (
         <Container>
