@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {useLocation} from "react-router-dom";
 import Auth from "../utils/auth";
 import {Container, Row, Tabs, Tab} from "react-bootstrap";
-import {useQuery, useMutation} from "@apollo/client";
+import {useQuery} from "@apollo/client";
 import {GET_USER} from "../utils/queries";
 import Divider from "./Divider";
 import Measures from "./Measures";
@@ -21,14 +21,8 @@ const EditUser = () => {
 
     const {state} = useLocation();
     const {id} = state;
-    const {loading, data, refetch} = useQuery(GET_USER, {
+    const {loading, data} = useQuery(GET_USER, {
         variables: {userId: id}
-    });
-
-    useEffect(() => {
-       refetch().then(() => {
-
-       })
     });
 
     let userData;
@@ -49,7 +43,7 @@ const EditUser = () => {
             <Divider/>
             <Tabs defaultActiveKey={'measures'} justify>
                 <Tab eventKey={'measures'} title={'Measures'}>
-                    <Measures measures={userData.userMeasures} edit={true}/>
+                    <Measures edit={true} userId={id}/>
                 </Tab>
                 <Tab eventKey={'diets'} title={'Diets'}>
                     <h1>Diets</h1>
