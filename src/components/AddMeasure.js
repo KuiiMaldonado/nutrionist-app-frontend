@@ -1,14 +1,97 @@
 import React from "react";
-import {Container, Row} from "react-bootstrap";
+import {Alert, Button, Col, Container, Row} from "react-bootstrap";
+import {useForm} from "react-hook-form";
 import Divider from "./Divider";
 
 const AddMeasure = () => {
+    const {register, resetField, handleSubmit, formState:{errors, isValid}} = useForm({
+        mode: 'onChange',
+        shouldUseNativeValidation: false
+    });
+
+    const onSubmit = async (inputs, event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log('onSubmit');
+    }
     return (
         <Container>
             <Row>
                 <h2>Add measure</h2>
             </Row>
             <Divider/>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Row className={'my-3'}>
+                    <Col className={'col-6'}>
+                        <Row>
+                            <h6>Date</h6>
+                        </Row>
+                        <input type={'date'} className={'form-control'}
+                               {...register('date' ,{required: {value: true, message: 'Date required'}})}
+                        />
+                        {errors.date && <Alert variant={'danger'}>{errors.date.message}</Alert>}
+                    </Col>
+                    <Col className={'col-6'}>
+                        <Row>
+                            <h6>Body type</h6>
+                        </Row>
+                        <input type={'text'} className={'form-control'}
+                               {...register('bodyType', {required: {value: true, message: 'Body type required'},
+                               pattern: {value: /[A-z]+/, message: 'Body type can be letters only'}})}
+                        />
+                        {errors.bodyType && <Alert variant={'danger'}>{errors.bodyType.message}</Alert>}
+                    </Col>
+                </Row>
+                <Row className={'my-3'}>
+                    <Col className={'col-6'}>
+                        <Row>
+                            <h6>Body Fat %</h6>
+                        </Row>
+                        <input type={'text'} className={'form-control'}
+                               {...register('bodyFatPercentage' ,{required: {value: true, message: 'Body fat percentage required'},
+                               pattern: {value: /\d+.\d{2}%/, message: 'Fat percentage must follow this pattern 85.54%'}})}
+                        />
+                        {errors.bodyFatPercentage && <Alert variant={'danger'}>{errors.bodyFatPercentage.message}</Alert>}
+                    </Col>
+                    <Col className={'col-6'}>
+                        <Row>
+                            <h6>Body Fat</h6>
+                        </Row>
+                        <input type={'text'} className={'form-control'}
+                               {...register('bodyFat', {required: {value: true, message: 'Body fat required'},
+                               pattern: {value: /\d+.\d{2}/, message: 'Body Fat can have only 2 decimal places'}})}
+                        />
+                        {errors.bodyFat && <Alert variant={'danger'}>{errors.bodyFat.message}</Alert>}
+                    </Col>
+                </Row>
+                <Row className={'my-3'}>
+                    <Col className={'col-6'}>
+                        <Row>
+                            <h6>Lean Body Weight</h6>
+                        </Row>
+                        <input type={'text'} className={'form-control'}
+                               {...register('leanBodyWeight' ,{required: {value: true, message: 'Lean body weight required'},
+                               pattern: {value: /\d+.\d{2}/, message: 'Lean body weight can have only 2 decimal places'}})}
+                        />
+                        {errors.leanBodyWeight && <Alert variant={'danger'}>{errors.leanBodyWeight.message}</Alert>}
+                    </Col>
+                    <Col className={'col-6'}>
+                        <Row>
+                            <h6>Weight</h6>
+                        </Row>
+                        <input type={'text'} className={'form-control'}
+                               {...register('weight', {required: {value: true, message: 'Weight required'},
+                               pattern: {value: /\d+.\d{2}/, message: 'Weight can have only 2 decimal places'}})}
+                        />
+                        {errors.weight && <Alert variant={'danger'}>{errors.weight.message}</Alert>}
+                    </Col>
+                </Row>
+                <Row className={'my-3'}>
+                    <Col className={'text-center'}>
+                        <Button type={'submit'} disabled={!isValid} variant={'success'}>Add measure</Button>
+                    </Col>
+                </Row>
+            </form>
         </Container>
     );
 }
