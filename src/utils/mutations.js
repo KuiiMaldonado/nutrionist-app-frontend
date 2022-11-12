@@ -46,8 +46,8 @@ export const DELETE_PROFILE = gql`
 `;
 
 export const DELETE_MEASURE = gql`
-    mutation deleteMeasure($measureId: ID!) {
-        deleteMeasure(measureId: $measureId) {
+    mutation deleteMeasure($measureId: String!, $userId: String!) {
+        deleteMeasure(measureId: $measureId, userId: $userId) {
             userMeasures {
                 _id
                 date
