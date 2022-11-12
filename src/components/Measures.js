@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import {Container, Row, Table} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Button, Container, Modal, Row, Table} from "react-bootstrap";
 import {faCircleXmark, faSquarePlus} from '@fortawesome/free-regular-svg-icons';
 import {useQuery, useMutation} from "@apollo/client";
 import {DELETE_MEASURE} from "../utils/mutations";
@@ -15,13 +15,22 @@ const Measures = (props) => {
         variables: {userId: props.userId}
     });
     const [deleteMeasure] = useMutation(DELETE_MEASURE);
+    const [showModal, setShowModal] = useState(false);
+    const [measureId, setMeasureId] = useState('');
     let measures;
 
     useEffect(() => {
         refetch().then();
-    })
+    });
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
 
-    const handleDeleteMeasure = async (measureId) => {
+    const handleModal = (measureId) => {
+        handleShow();
+        setMeasureId(measureId);
+    }
+
+    const handleDeleteMeasure = async () => {
         try {
             const {data} = await deleteMeasure({
                 variables: {
@@ -35,6 +44,7 @@ const Measures = (props) => {
         } catch (error) {
             console.error(error);
         }
+        handleClose();
     }
 
     if (!loading) {
@@ -47,6 +57,26 @@ const Measures = (props) => {
     }
     return (
         <Container>
+            <Modal centered show={showModal}>
+                <Modal.Header>
+                    <Modal.Title>Warning!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <h5>Deleting measure</h5>
+                    <p>
+                        You are about to delete the user's measure. This action can not be undone.
+                        Do you want to proceed?
+                    </p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={'secondary'} onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button variant={'danger'} onClick={handleDeleteMeasure}>
+                        Delete
+                    </Button>
+                </Modal.Footer>
+            </Modal>
             {!props.edit &&
                 <>
                     <Row>
@@ -84,7 +114,7 @@ const Measures = (props) => {
                                             {props.edit &&
                                                 <>
                                                     <td>
-                                                        <button className={'user-button delete'} onClick={() => handleDeleteMeasure(measure._id)}>
+                                                        <button className={'user-button delete'} onClick={() => handleModal(measure._id)}>
                                                             <FontAwesomeIcon icon={faCircleXmark} size={'xl'}/>
                                                         </button>
                                                     </td>
