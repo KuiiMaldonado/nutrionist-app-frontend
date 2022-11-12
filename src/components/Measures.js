@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Container, Row, Table} from "react-bootstrap";
 import {faCircleXmark, faSquarePlus} from '@fortawesome/free-regular-svg-icons';
 import {useQuery, useMutation} from "@apollo/client";
@@ -11,32 +11,34 @@ import '../assets/css/ManageUsers.css';
 import LoadingSpinners from "./LoadingSpinners";
 
 const Measures = (props) => {
-    const {data, loading} = useQuery(GET_USER_MEASURES, {
+    const {data, loading, refetch} = useQuery(GET_USER_MEASURES, {
         variables: {userId: props.userId}
     });
     const [deleteMeasure] = useMutation(DELETE_MEASURE);
     let measures;
 
+    useEffect(() => {
+        refetch().then();
+    })
+
     const handleDeleteMeasure = async (measureId) => {
-        // try {
-        //     console.log(measureId);
-        //     const {data} = await deleteMeasure({
-        //         variables: {
-        //             measureId: measureId,
-        //             userId: props.userId
-        //         }
-        //     });
-        //     if (!data) {
-        //         throw new Error('Something went wrong');
-        //     }
-        // } catch (error) {
-        //     console.error(error);
-        // }
+        try {
+            const {data} = await deleteMeasure({
+                variables: {
+                    measureId: measureId,
+                    userId: props.userId
+                }
+            });
+            if (!data) {
+                throw new Error('Something went wrong');
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     if (!loading) {
         measures = data.getUserMeasures.userMeasures
-        console.log(measures);
     }
     else {
         return (
@@ -45,18 +47,18 @@ const Measures = (props) => {
     }
     return (
         <Container>
+            {!props.edit &&
+                <>
+                    <Row>
+                        <h2>Measures</h2>
+                    </Row>
+                    <Divider/>
+                </>
+            }
             {measures.length === 0
                 ? <h3>No data available</h3>
                 :
                 <>
-                    {!props.edit &&
-                        <>
-                        <Row>
-                        <h2>Measures</h2>
-                        </Row>
-                        <Divider/>
-                        </>
-                    }
                     <div className={'table-responsive'}>
                         <Table striped>
                             <thead>
