@@ -22,9 +22,7 @@ const ProfilePage = (props) => {
 
     useEffect(() => {
         if (isUpdated) {
-            refetch().then((result) => {
-                console.log('Re-fetching')
-            });
+            refetch().then();
         }
     }, [isUpdated, refetch])
 
