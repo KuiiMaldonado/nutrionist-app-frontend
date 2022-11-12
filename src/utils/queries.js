@@ -55,3 +55,19 @@ export const GET_ALL_USERS = gql`
         }
     }
 `;
+
+export const GET_USER_MEASURES = gql`
+    query getUserMeasures($userId: ID!) {
+        getUserMeasures(userId: $userId) {
+            userMeasures {
+                _id
+                date
+                weight
+                bodyFatPercentage
+                leanBodyWeight
+                bodyFat
+                bodyType
+            }
+        }
+    }
+`;

@@ -31,7 +31,7 @@ const ProfilePage = (props) => {
     const renderSection = (props) => {
         switch (props.section) {
             case 'measures':
-                return <Measures measures={userData.userMeasures}/>;
+                return <Measures userId={userData._id}/>;
             case 'diets':
                 return <h1>Diets</h1>;
             case 'trainings':
