@@ -130,7 +130,7 @@ const Measures = (props) => {
             }
             {props.edit &&
                 <Row className={'text-center'}>
-                    <button className={'user-button add'}>
+                    <button className={'user-button add'} onClick={() => window.location.assign(window.location.pathname + '/addMeasure')}>
                         <FontAwesomeIcon icon={faSquarePlus} size={'xl'}/>
                     </button>
                 </Row>
