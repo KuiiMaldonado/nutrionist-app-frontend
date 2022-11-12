@@ -10,6 +10,7 @@ import ManageUsers from "../components/ManageUsers";
 import LoadingSpinners from "../components/LoadingSpinners";
 import AddUser from "../components/AddUser";
 import EditUser from "../components/EditUser";
+import AddMeasure from "../components/AddMeasure";
 export const ProfileContext = createContext();
 
 const ProfilePage = (props) => {
@@ -40,6 +41,8 @@ const ProfilePage = (props) => {
                 return <ManageUsers/>;
             case 'addUser':
                 return <AddUser/>;
+            case 'addMeasure':
+                return <AddMeasure/>
             case 'editUser':
                 return <EditUser/>
             default:
