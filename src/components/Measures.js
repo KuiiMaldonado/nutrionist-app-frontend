@@ -96,11 +96,13 @@ const Measures = (props) => {
                     </div>
                 </>
             }
-            <Row className={'text-center'}>
-                <button className={'user-button add'}>
-                    <FontAwesomeIcon icon={faSquarePlus} size={'xl'}/>
-                </button>
-            </Row>
+            {props.edit &&
+                <Row className={'text-center'}>
+                    <button className={'user-button add'}>
+                        <FontAwesomeIcon icon={faSquarePlus} size={'xl'}/>
+                    </button>
+                </Row>
+            }
         </Container>
     );
 }
