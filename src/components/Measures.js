@@ -9,6 +9,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import '../assets/css/ManageUsers.css';
 import LoadingSpinners from "./LoadingSpinners";
+import {useNavigate} from "react-router-dom";
 
 const Measures = (props) => {
     const {data, loading, refetch} = useQuery(GET_USER_MEASURES, {
@@ -17,6 +18,8 @@ const Measures = (props) => {
     const [deleteMeasure] = useMutation(DELETE_MEASURE);
     const [showModal, setShowModal] = useState(false);
     const [measureId, setMeasureId] = useState('');
+    const navigate = useNavigate();
+    let editId = props.userId;
     let measures;
 
     useEffect(() => {
@@ -130,7 +133,7 @@ const Measures = (props) => {
             }
             {props.edit &&
                 <Row className={'text-center'}>
-                    <button className={'user-button add'} onClick={() => window.location.assign(window.location.pathname + '/addMeasure')}>
+                    <button className={'user-button add'} onClick={() => navigate('addMeasure', {state: {editId}})}>
                         <FontAwesomeIcon icon={faSquarePlus} size={'xl'}/>
                     </button>
                 </Row>
