@@ -1,21 +1,62 @@
-import React from "react";
+import React, {useState} from "react";
 import {Alert, Button, Col, Container, Row} from "react-bootstrap";
 import {useForm} from "react-hook-form";
+import {useMutation} from "@apollo/client";
+import {ADD_MEASURE} from "../utils/mutations";
 import Divider from "./Divider";
+import {useLocation} from "react-router-dom";
+import Auth from "../utils/auth";
 
 const AddMeasure = () => {
+    if (!Auth.loggedIn()) {
+        window.location.assign('/login');
+    }
+
+    if (!Auth.isAdmin()) {
+        window.location.assign('/profile');
+    }
+
     const {register, resetField, handleSubmit, formState:{errors, isValid}} = useForm({
         mode: 'onChange',
         shouldUseNativeValidation: false
     });
 
+    const {state} = useLocation();
+    const {editId} = state;
+    const [addMeasure] = useMutation(ADD_MEASURE);
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+
     const onSubmit = async (inputs, event) => {
         event.preventDefault();
         event.stopPropagation();
-        console.log(inputs);
+        try {
+            const {data} = await addMeasure({
+                variables: {
+                    userId: editId,
+                    measureInput: inputs
+                }
+            });
+            if (!data) {
+                throw new Error('Something went wrong!');
+            }
+            else {
+                setShowSuccessAlert(true);
+                resetField('date');
+                resetField('bodyType');
+                resetField('bodyFatPercentage');
+                resetField('bodyFat');
+                resetField('leanBodyWeight');
+                resetField('weight');
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
     return (
         <Container>
+            <Alert dismissible variant={'success'} onClose={() => setShowSuccessAlert(false)} show={showSuccessAlert}>
+                Measure added successfully!
+            </Alert>
             <Row>
                 <h2>Add measure</h2>
             </Row>
