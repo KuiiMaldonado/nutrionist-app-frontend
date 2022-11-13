@@ -49,7 +49,7 @@ const AddMeasure = () => {
                         </Row>
                         <input type={'text'} className={'form-control'}
                                {...register('bodyFatPercentage' ,{required: {value: true, message: 'Body fat percentage required'},
-                               pattern: {value: /\d+.\d{2}%/, message: 'Fat percentage must follow this pattern 85.54%'}})}
+                               pattern: {value: /\b[0-9]{1,3}\b\.[0-9]{2}%/, message: 'Fat percentage must follow this pattern 85.54%'}})}
                         />
                         {errors.bodyFatPercentage && <Alert variant={'danger'}>{errors.bodyFatPercentage.message}</Alert>}
                     </Col>
@@ -59,7 +59,7 @@ const AddMeasure = () => {
                         </Row>
                         <input type={'text'} className={'form-control'}
                                {...register('bodyFat', {required: {value: true, message: 'Body fat required'},
-                               pattern: {value: /\d+.\d{2}/, message: 'Body Fat can have only 2 decimal places'}})}
+                               pattern: {value: /\b[0-9]{1,3}\b\.[0-9]{2}\b/, message: 'Body Fat can have only 2 decimal places'}})}
                         />
                         {errors.bodyFat && <Alert variant={'danger'}>{errors.bodyFat.message}</Alert>}
                     </Col>
@@ -71,7 +71,7 @@ const AddMeasure = () => {
                         </Row>
                         <input type={'text'} className={'form-control'}
                                {...register('leanBodyWeight' ,{required: {value: true, message: 'Lean body weight required'},
-                               pattern: {value: /\d+.\d{2}/, message: 'Lean body weight can have only 2 decimal places'}})}
+                               pattern: {value: /\b[0-9]{1,3}\b\.[0-9]{2}\b/, message: 'Lean body weight can have only 2 decimal places'}})}
                         />
                         {errors.leanBodyWeight && <Alert variant={'danger'}>{errors.leanBodyWeight.message}</Alert>}
                     </Col>
@@ -81,7 +81,7 @@ const AddMeasure = () => {
                         </Row>
                         <input type={'text'} className={'form-control'}
                                {...register('weight', {required: {value: true, message: 'Weight required'},
-                               pattern: {value: /\d+.\d{2}/, message: 'Weight can have only 2 decimal places'}})}
+                               pattern: {value: /\b[0-9]{1,3}\b\.[0-9]{2}\b/, message: 'Weight can have only 2 decimal places'}})}
                         />
                         {errors.weight && <Alert variant={'danger'}>{errors.weight.message}</Alert>}
                     </Col>
