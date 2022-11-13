@@ -13,6 +13,8 @@ const AddUser = () => {
     });
 
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [showErrorAlert, setShowErrorAlert] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const [addProfile, {loading}] = useMutation(ADD_PROFILE);
 
     const onSubmit = async (inputs, event) => {
@@ -42,7 +44,8 @@ const AddUser = () => {
             resetField('password');
             resetField('admin');
         } catch (error) {
-            console.error(error);
+            setShowErrorAlert(true);
+            setErrorMessage(`Something went wrong! ${error.message}`);
         }
     }
     if (loading) {
@@ -54,6 +57,9 @@ const AddUser = () => {
         <Container>
             <Alert dismissible variant={'success'} onClose={() => setShowSuccessAlert(false)} show={showSuccessAlert}>
                 User added successfully!
+            </Alert>
+            <Alert dismissible variant={'danger'} onClose={() => setShowErrorAlert(false)} show={showErrorAlert}>
+                {errorMessage}
             </Alert>
             <Row>
                 <h2>Add user</h2>
