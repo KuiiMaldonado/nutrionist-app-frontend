@@ -45,6 +45,22 @@ export const DELETE_PROFILE = gql`
     }
 `;
 
+export const ADD_MEASURE = gql `
+    mutation addMeasure($userId: String!, $measureInput: addMeasureInput) {
+        addMeasure(userId: $userId, measureInput: $measureInput) {
+            userMeasures {
+                _id
+                date
+                weight
+                bodyFatPercentage
+                leanBodyWeight
+                bodyFat
+                bodyType
+            }
+        }
+    }
+`;
+
 export const DELETE_MEASURE = gql`
     mutation deleteMeasure($measureId: String!, $userId: String!) {
         deleteMeasure(measureId: $measureId, userId: $userId) {
