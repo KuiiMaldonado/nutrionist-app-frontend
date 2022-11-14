@@ -67,7 +67,7 @@ const AddUser = () => {
             <Divider/>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Row className={'my-3'}>
-                    <Col className={'col-6'}>
+                    <Col className={'col-md-12 col-lg-6'}>
                         <Row>
                             <h6>Username</h6>
                         </Row>
@@ -80,7 +80,7 @@ const AddUser = () => {
                     </Col>
                 </Row>
                 <Row className={'my-3'}>
-                    <Col className={'col-6'}>
+                    <Col className={'col-md-12 col-lg-6'}>
                         <Row>
                             <label>Email</label>
                         </Row>
@@ -92,7 +92,7 @@ const AddUser = () => {
                     </Col>
                 </Row>
                 <Row className={'my-3'}>
-                    <Col className={'col-6'}>
+                    <Col className={'col-md-12 col-lg-6'}>
                         <label>First Name</label>
                         <input type={'text'} className={'form-control'}
                                {...register('firstName', {required: {value: true, message: 'First name required'},
@@ -103,7 +103,7 @@ const AddUser = () => {
                     </Col>
                 </Row>
                 <Row className={'my-3'}>
-                    <Col className={'col-6'}>
+                    <Col className={'col-md-12 col-lg-6'}>
                         <label>Last Name</label>
                         <input type={'text'} className={'form-control'}
                                {...register('lastName', {required: {value: true, message: 'Last name required'},
@@ -114,7 +114,7 @@ const AddUser = () => {
                     </Col>
                 </Row>
                 <Row className={'my-3'}>
-                    <Col className={'col-6'}>
+                    <Col className={'col-md-12 col-lg-6'}>
                         <Row>
                             <label>Password</label>
                         </Row>
@@ -126,7 +126,7 @@ const AddUser = () => {
                     </Col>
                 </Row>
                 <Row className={'my-3'}>
-                    <Col className={'col-6'}>
+                    <Col className={'col-md-12 col-lg-6'}>
                         <Row>
                             <label>Admin</label>
                         </Row>
@@ -139,7 +139,7 @@ const AddUser = () => {
                     </Col>
                 </Row>
                 <Row className={'my-3'}>
-                    <Col className={'col-6 text-center'}>
+                    <Col className={'col-md-12 col-lg-6 text-center'}>
                         <Button type={'submit'} disabled={!isValid} variant={'success'}>Add user</Button>
                     </Col>
                 </Row>

@@ -62,11 +62,11 @@ const ProfilePage = (props) => {
         <>
             <ProfileContext.Provider value={[isUpdated, setIsUpdated]}>
                 <Container fluid>
-                    <Row className={'d-flex mt-3'}>
-                        <Col className={'col-lg-2'}>
+                    <Row className={'mt-3'}>
+                        <Col sm={12} md={3} lg={2}>
                             <ProfileSections userData={userData}/>
                         </Col>
-                        <Col className={'offset-lg-1 col-lg-8'}>
+                        <Col sm={12} md={9} lg={{span: 8, offset: 1}}>
                             {renderSection(props)}
                         </Col>
                     </Row>
