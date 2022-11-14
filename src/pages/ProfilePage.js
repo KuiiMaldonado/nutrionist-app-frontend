@@ -1,11 +1,16 @@
 import React, {createContext, useEffect, useState} from "react";
 import ProfileSections from "../components/ProfileSections";
-import {Col, Container, Row, Spinner} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import Auth from "../utils/auth";
 import {useQuery} from "@apollo/client";
 import {GET_ME} from "../utils/queries";
 import Measures from "../components/Measures";
 import AccountSettings from "../components/AccountSettings";
+import ManageUsers from "../components/ManageUsers";
+import LoadingSpinners from "../components/LoadingSpinners";
+import AddUser from "../components/AddUser";
+import EditUser from "../components/EditUser";
+import AddMeasure from "../components/AddMeasure";
 export const ProfileContext = createContext();
 
 const ProfilePage = (props) => {
@@ -18,16 +23,14 @@ const ProfilePage = (props) => {
 
     useEffect(() => {
         if (isUpdated) {
-            refetch().then((result) => {
-                console.log('Re-fetching')
-            });
+            refetch().then();
         }
     }, [isUpdated, refetch])
 
     const renderSection = (props) => {
         switch (props.section) {
             case 'measures':
-                return <Measures/>;
+                return <Measures userId={userData._id}/>;
             case 'diets':
                 return <h1>Diets</h1>;
             case 'trainings':
@@ -35,7 +38,13 @@ const ProfilePage = (props) => {
             case 'settings':
                 return <AccountSettings user={userData}/>;
             case 'manage':
-                return <h1>Manage users</h1>;
+                return <ManageUsers/>;
+            case 'addUser':
+                return <AddUser/>;
+            case 'addMeasure':
+                return <AddMeasure/>
+            case 'editUser':
+                return <EditUser/>
             default:
                 return <h1>Settings</h1>
         }
@@ -46,15 +55,7 @@ const ProfilePage = (props) => {
     }
     else {
         return (
-            <Container>
-                <Row>
-                    <Col className={'text-center mt-5'}>
-                        <Spinner animation="grow"/>
-                        <Spinner animation="grow"/>
-                        <Spinner animation="grow"/>
-                    </Col>
-                </Row>
-            </Container>
+            <LoadingSpinners/>
         );
     }
     return (

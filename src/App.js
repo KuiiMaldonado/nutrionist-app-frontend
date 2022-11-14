@@ -55,7 +55,14 @@ function App() {
                       <Route path={'diets'} element={<ProfilePage section={'diets'}/>}/>
                       <Route path={'trainings'} element={<ProfilePage section={'trainings'}/>}/>
                       <Route path={'settings'} element={<ProfilePage section={'settings'}/>}/>
-                      <Route path={'manage'} element={<ProfilePage section={'manage'}/>}/>
+                      <Route path={'manage'}>
+                          <Route index element={<ProfilePage section={'manage'}/>}/>
+                          <Route path={'addUser'} element={<ProfilePage section={'addUser'}/>}/>
+                          <Route path={'editUser'} >
+                              <Route index element={<ProfilePage section={'editUser'}/>}/>
+                              <Route path={'addMeasure'} element={<ProfilePage section={'addMeasure'}/>}/>
+                          </Route>
+                      </Route>
                   </Route>
                   <Route path={'*'} element={<NotFound/>}/>
               </Routes>

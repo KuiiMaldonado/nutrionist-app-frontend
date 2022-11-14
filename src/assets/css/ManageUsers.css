@@ -1,0 +1,23 @@
+.user-button {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.edit {
+    color: #3490D6;
+}
+
+.delete {
+    color: #FA1200;
+}
+
+.add {
+    color: #6E8F73;
+}
+
+#profileName {
+    font-style: italic;
+    color: #076E1F;
+}
