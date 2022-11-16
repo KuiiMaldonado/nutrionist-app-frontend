@@ -6,6 +6,9 @@ import Divider from "./Divider";
 import LoadingSpinners from "./LoadingSpinners";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from '@fortawesome/free-solid-svg-icons';
+import {faCircleXmark} from "@fortawesome/free-regular-svg-icons";
+
+import '../assets/css/ManageUsers.css';
 
 const Diets = (props) => {
     const {data, loading, refetch} = useQuery(GET_USER_DIETS, {
@@ -42,7 +45,12 @@ const Diets = (props) => {
                                         <h5>{diet.fileName}</h5>
                                     </div>
                                     <div>
-                                        <FontAwesomeIcon icon={faDownload} size={'xl'}/>
+                                        <button className={'user-button download'}>
+                                            <FontAwesomeIcon icon={faDownload} size={'xl'}/>
+                                        </button>
+                                        <button className={'user-button delete'}>
+                                            <FontAwesomeIcon icon={faCircleXmark} size={'xl'}/>
+                                        </button>
                                     </div>
                                 </ListGroupItem>
                             );
