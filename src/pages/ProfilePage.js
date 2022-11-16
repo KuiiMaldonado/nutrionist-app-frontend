@@ -11,6 +11,7 @@ import LoadingSpinners from "../components/LoadingSpinners";
 import AddUser from "../components/AddUser";
 import EditUser from "../components/EditUser";
 import AddMeasure from "../components/AddMeasure";
+import Diets from "../components/Diets";
 export const ProfileContext = createContext();
 
 const ProfilePage = (props) => {
@@ -32,7 +33,7 @@ const ProfilePage = (props) => {
             case 'measures':
                 return <Measures userId={userData._id}/>;
             case 'diets':
-                return <h1>Diets</h1>;
+                return <Diets/>;
             case 'trainings':
                 return <h1>Trainings</h1>;
             case 'settings':
