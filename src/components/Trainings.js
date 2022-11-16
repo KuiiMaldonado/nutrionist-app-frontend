@@ -26,12 +26,12 @@ const Trainings = (props) => {
         <Container>
             {!props.edit &&
                 <Row>
-                    <h2>Diets</h2>
+                    <h2>Trainings</h2>
                     <Divider/>
                 </Row>
             }
             {trainings.length === 0
-                ? <h3>No data available</h3>
+                ? <h3>No trainings available</h3>
                 :
                 <>
                     <ListGroup as={'ul'}>

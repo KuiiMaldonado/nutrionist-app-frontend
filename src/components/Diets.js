@@ -31,7 +31,7 @@ const Diets = (props) => {
                 </Row>
             }
             {diets.length === 0
-                ? <h3>No data available</h3>
+                ? <h3>No diets available</h3>
                 :
                 <>
                     <ListGroup as={'ul'}>
