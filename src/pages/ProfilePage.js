@@ -48,7 +48,7 @@ const ProfilePage = (props) => {
             case 'editUser':
                 return <EditUser/>
             default:
-                return <h1>Settings</h1>
+                return <AccountSettings user={userData}/>;
         }
     }
 
