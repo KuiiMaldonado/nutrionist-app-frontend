@@ -51,7 +51,7 @@ const Measures = (props) => {
     }
 
     if (!loading) {
-        measures = data.getUserMeasures.userMeasures
+        measures = data.getUserMeasures.userMeasures;
     }
     else {
         return (

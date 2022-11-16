@@ -34,9 +34,9 @@ const ProfilePage = (props) => {
             case 'measures':
                 return <Measures userId={userData._id}/>;
             case 'diets':
-                return <Diets/>;
+                return <Diets userId={userData._id}/>;
             case 'trainings':
-                return <Trainings/>;
+                return <Trainings userId={userData._id}/>;
             case 'settings':
                 return <AccountSettings user={userData}/>;
             case 'manage':
