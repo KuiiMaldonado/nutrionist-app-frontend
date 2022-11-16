@@ -48,9 +48,11 @@ const Diets = (props) => {
                                         <button className={'user-button download'}>
                                             <FontAwesomeIcon icon={faDownload} size={'xl'}/>
                                         </button>
-                                        <button className={'user-button delete'}>
-                                            <FontAwesomeIcon icon={faCircleXmark} size={'xl'}/>
-                                        </button>
+                                        {props.edit &&
+                                            <button className={'user-button delete'}>
+                                                <FontAwesomeIcon icon={faCircleXmark} size={'xl'}/>
+                                            </button>
+                                        }
                                     </div>
                                 </ListGroupItem>
                             );
