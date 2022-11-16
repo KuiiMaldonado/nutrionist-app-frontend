@@ -12,6 +12,7 @@ import AddUser from "../components/AddUser";
 import EditUser from "../components/EditUser";
 import AddMeasure from "../components/AddMeasure";
 import Diets from "../components/Diets";
+import Trainings from "../components/Trainings";
 export const ProfileContext = createContext();
 
 const ProfilePage = (props) => {
@@ -35,7 +36,7 @@ const ProfilePage = (props) => {
             case 'diets':
                 return <Diets/>;
             case 'trainings':
-                return <h1>Trainings</h1>;
+                return <Trainings/>;
             case 'settings':
                 return <AccountSettings user={userData}/>;
             case 'manage':
