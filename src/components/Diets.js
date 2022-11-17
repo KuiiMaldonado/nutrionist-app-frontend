@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {FileUploader} from "react-drag-drop-files";
-import {Col, Container, ListGroup, ListGroupItem, Row, Button} from "react-bootstrap";
+import {Col, Container, ListGroup, ListGroupItem, Row, Button, Modal, Alert} from "react-bootstrap";
 import {useQuery, useMutation} from "@apollo/client";
 import {GET_USER_DIETS} from "../utils/queries";
-import {ADD_DIET} from "../utils/mutations";
+import {ADD_DIET, DELETE_DIET} from "../utils/mutations";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from '@fortawesome/free-solid-svg-icons';
 import {faCircleXmark} from "@fortawesome/free-regular-svg-icons";
@@ -20,14 +20,22 @@ const Diets = (props) => {
         variables: {userId: props.userId}
     });
     const [addDiet] = useMutation(ADD_DIET);
+    const [deleteDiet] = useMutation(DELETE_DIET);
+    const [showModal, setShowModal] = useState(false);
+    const [dietId, setDietId] = useState('');
     const [selectedFile, setSelectedFIle] = useState(null);
-    const handleChange = (file) => {
-        setSelectedFIle(file);
-    };
+    const handleChange = (file) => setSelectedFIle(file);
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
 
     useEffect(() => {
         refetch().then();
-    })
+    });
+
+    const handleModal = (dietId) => {
+        handleShow();
+        setDietId(dietId);
+    }
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -60,6 +68,24 @@ const Diets = (props) => {
             console.error(error);
         }
     }
+
+    const handleDeleteDiet = async () => {
+        try {
+            const {data} = await deleteDiet({
+                variables: {
+                    userId: props.userId,
+                    dietId: dietId
+                }
+            });
+            if (!data) {
+                throw new Error('Something went wrong');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        handleClose();
+    }
+
     let diets;
 
     if (!loading) {
@@ -72,6 +98,26 @@ const Diets = (props) => {
     }
     return (
         <Container>
+            <Modal centered show={showModal}>
+                <Modal.Header>
+                    <Modal.Title>Warning!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <h5>Deleting diet</h5>
+                    <p>
+                        You are about to delete the user's diet. This action can not be undone.
+                        Do you want to proceed?
+                    </p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={'secondary'} onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button variant={'danger'} onClick={handleDeleteDiet}>
+                        Delete
+                    </Button>
+                </Modal.Footer>
+            </Modal>
             {!props.edit &&
                 <Row>
                   <h2>Diets</h2>
@@ -94,7 +140,7 @@ const Diets = (props) => {
                                             <FontAwesomeIcon icon={faDownload} size={'xl'}/>
                                         </button>
                                         {props.edit &&
-                                            <button className={'user-button delete'}>
+                                            <button className={'user-button delete'} onClick={() => handleModal(diet._id)}>
                                                 <FontAwesomeIcon icon={faCircleXmark} size={'xl'}/>
                                             </button>
                                         }
