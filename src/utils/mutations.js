@@ -76,3 +76,27 @@ export const DELETE_MEASURE = gql`
         }
     }
 `;
+
+export const ADD_DIET = gql`
+    mutation addDiet($userId: String!, $eTag: String!, $fileName: String!) {
+        addDiet(userId: $userId, eTag: $eTag, fileName: $fileName) {
+            userDiets {
+                _id
+                eTag
+                fileName
+            }
+        }
+    }
+`;
+
+export const ADD_TRAINING = gql`
+    mutation addDiet($userId: String!, $eTag: String!, $fileName: String!) {
+        addDiet(userId: $userId, eTag: $eTag, fileName: $fileName) {
+            userDiets {
+                _id
+                eTag
+                fileName
+            }
+        }
+    }
+`;
