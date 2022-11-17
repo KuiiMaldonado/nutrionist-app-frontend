@@ -18,7 +18,6 @@ const Trainings = (props) => {
 
     if (!loading) {
         trainings = data.getUserTrainings.userTrainings;
-        console.log(trainings);
     }
     else {
         return (
