@@ -89,10 +89,34 @@ export const ADD_DIET = gql`
     }
 `;
 
+export const DELETE_DIET = gql`
+    mutation deleteDiet($userId: String!, $dietId: String!) {
+        deleteDiet(userId: $userId, dietId: $dietId) {
+            userDiets {
+                _id
+                eTag
+                fileName
+            }
+        }
+    }
+`;
+
 export const ADD_TRAINING = gql`
     mutation addDiet($userId: String!, $eTag: String!, $fileName: String!) {
         addDiet(userId: $userId, eTag: $eTag, fileName: $fileName) {
             userDiets {
+                _id
+                eTag
+                fileName
+            }
+        }
+    }
+`;
+
+export const DELETE_TRAINING = gql`
+    mutation deleteTraining($userId: String!, $trainingId: String!) {
+        deleteTraining(userId: $userId, trainingId: $trainingId) {
+            userTrainings {
                 _id
                 eTag
                 fileName
