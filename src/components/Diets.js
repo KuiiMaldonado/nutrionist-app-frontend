@@ -94,6 +94,22 @@ const Diets = (props) => {
         handleClose();
     }
 
+    const handleDownloadDiet = async (dietFileName) => {
+        try {
+            let url = baseUrl + '/api/downloadDiet';
+            const response = await axios.post(url, {
+                userId: props.userId,
+                fileName: dietFileName
+            });
+            const link = document.createElement('a');
+            link.href = response.data.download;
+            link.download = dietFileName
+            link.click();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     let diets;
 
     if (!loading) {
@@ -144,7 +160,7 @@ const Diets = (props) => {
                                         <h5>{diet.fileName}</h5>
                                     </div>
                                     <div>
-                                        <button className={'user-button download'}>
+                                        <button className={'user-button download'} onClick={() => handleDownloadDiet(diet.fileName)}>
                                             <FontAwesomeIcon icon={faDownload} size={'xl'}/>
                                         </button>
                                         {props.edit &&
