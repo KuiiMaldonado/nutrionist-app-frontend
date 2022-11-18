@@ -94,6 +94,22 @@ const Trainings = (props) => {
         handleClose();
     }
 
+    const handleDownloadTraining = async (trainingFileName) => {
+        try {
+            let url = baseUrl + '/api/downloadTraining';
+            const response = await axios.post(url, {
+                userId: props.userId,
+                fileName: trainingFileName
+            });
+            const link = document.createElement('a');
+            link.href = response.data.download;
+            link.download = trainingFileName
+            link.click();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     let trainings;
 
     if (!loading) {
@@ -145,7 +161,7 @@ const Trainings = (props) => {
                                     </div>
                                     <div>
                                         <button className={'user-button download'}>
-                                            <FontAwesomeIcon icon={faDownload} size={'xl'}/>
+                                            <FontAwesomeIcon icon={faDownload} size={'xl'} onClick={() => handleDownloadTraining(training.fileName)}/>
                                         </button>
                                         {props.edit &&
                                             <button className={'user-button delete'}>
@@ -165,7 +181,7 @@ const Trainings = (props) => {
                         <form onSubmit={onSubmit}>
                             <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
                             <Button type={'submit'} variant={'success'} className={'mt-3'}>
-                                Upload diet
+                                Upload training
                             </Button>
                         </form>
                     </Col>
