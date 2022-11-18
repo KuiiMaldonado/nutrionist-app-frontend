@@ -102,8 +102,8 @@ export const DELETE_DIET = gql`
 `;
 
 export const ADD_TRAINING = gql`
-    mutation addDiet($userId: String!, $eTag: String!, $fileName: String!) {
-        addDiet(userId: $userId, eTag: $eTag, fileName: $fileName) {
+    mutation addTraining($userId: String!, $eTag: String!, $fileName: String!) {
+        addTraining(userId: $userId, eTag: $eTag, fileName: $fileName) {
             userTrainings {
                 _id
                 eTag
