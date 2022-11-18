@@ -71,3 +71,27 @@ export const GET_USER_MEASURES = gql`
         }
     }
 `;
+
+export const GET_USER_DIETS = gql`
+    query getUserDiets($userId: ID!) {
+        getUserDiets(userId: $userId) {
+            userDiets {
+                _id
+                eTag
+                fileName
+            }
+        }
+    }
+`;
+
+export const GET_USER_TRAININGS = gql`
+    query getUserTrainings($userId: ID!) {
+        getUserTrainings(userId: $userId) {
+            userTrainings {
+                _id
+                eTag
+                fileName
+            }
+        }
+    }
+`;

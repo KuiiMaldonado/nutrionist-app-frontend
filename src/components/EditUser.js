@@ -9,6 +9,8 @@ import Measures from "./Measures";
 import LoadingSpinners from "./LoadingSpinners";
 
 import '../assets/css/ManageUsers.css';
+import Diets from "./Diets";
+import Trainings from "./Trainings";
 
 const EditUser = () => {
     if (!Auth.loggedIn()) {
@@ -46,10 +48,10 @@ const EditUser = () => {
                     <Measures edit={true} userId={id}/>
                 </Tab>
                 <Tab eventKey={'diets'} title={'Diets'}>
-                    <h1>Diets</h1>
+                    <Diets edit={true} userId={id}/>
                 </Tab>
                 <Tab eventKey={'trainings'} title={'Trainings'}>
-                    <h1>Trainings</h1>
+                    <Trainings edit={true} userId={id}/>
                 </Tab>
             </Tabs>
         </Container>

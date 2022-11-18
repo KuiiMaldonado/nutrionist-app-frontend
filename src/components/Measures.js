@@ -51,7 +51,7 @@ const Measures = (props) => {
     }
 
     if (!loading) {
-        measures = data.getUserMeasures.userMeasures
+        measures = data.getUserMeasures.userMeasures;
     }
     else {
         return (
@@ -89,7 +89,7 @@ const Measures = (props) => {
                 </>
             }
             {measures.length === 0
-                ? <h3>No data available</h3>
+                ? <h3>No measures available</h3>
                 :
                 <>
                     <div className={'table-responsive'}>
