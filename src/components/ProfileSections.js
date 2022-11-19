@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import {Link} from "react-router-dom";
-import {Container, Row} from "react-bootstrap";
+import {Button, Container, Modal, Row} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUser, faAt, faGear, faUtensils, faDumbbell, faUsersGear, faWeightScale, faPencil} from '@fortawesome/free-solid-svg-icons';
 import Avatar from "./Avatar";
@@ -9,13 +9,36 @@ import Divider from "./Divider";
 import '../assets/css/ProfileSections.css';
 
 const ProfileSections = (props) => {
+    const [showModal, setShowModal] = useState(false);
+    const handleShow = () => setShowModal(true);
+    const handleClose = () => setShowModal(false);
+    const handleEditPicture = () => {
+        console.log('Edit profile pic');
+        handleShow();
+    }
     return (
         <Container>
-            <Row className={'mt-4'}>
+            <Modal centered show={showModal}>
+                <Modal.Header>
+                    <Modal.Title>Update your picture</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={'secondary'} onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Button variant={'success'}>
+                        Update
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <Row className={'mt-4'} id={'profile-picture'}>
                 <Avatar size={'200px'}/>
             </Row>
             <div className={'image-button'}>
-                <button>
+                <button onClick={() => handleEditPicture()}>
                     <FontAwesomeIcon icon={faPencil} size={'xl'}/>
                     <span>Edit</span>
                 </button>
