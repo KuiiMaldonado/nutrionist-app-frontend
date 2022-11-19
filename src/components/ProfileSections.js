@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {Container, Row} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faUser, faAt, faGear, faUtensils, faDumbbell, faUsersGear, faWeightScale} from '@fortawesome/free-solid-svg-icons';
+import {faUser, faAt, faGear, faUtensils, faDumbbell, faUsersGear, faWeightScale, faPencil} from '@fortawesome/free-solid-svg-icons';
 import Avatar from "./Avatar";
 import Divider from "./Divider";
 
@@ -14,6 +14,12 @@ const ProfileSections = (props) => {
             <Row className={'mt-4'}>
                 <Avatar size={'200px'}/>
             </Row>
+            <div className={'image-button'}>
+                <button>
+                    <FontAwesomeIcon icon={faPencil} size={'xl'}/>
+                    <span>Edit</span>
+                </button>
+            </div>
             <Row className={'mt-2'}>
                 <h4>{`${props.userData.firstName} ${props.userData.lastName}`}</h4>
             </Row>
