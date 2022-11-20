@@ -1,38 +1,66 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import {Button, Container, Modal, Row} from "react-bootstrap";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {FileUploader} from "react-drag-drop-files";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faUser, faAt, faGear, faUtensils, faDumbbell, faUsersGear, faWeightScale, faPencil} from '@fortawesome/free-solid-svg-icons';
 import Avatar from "./Avatar";
 import Divider from "./Divider";
 
 import '../assets/css/ProfileSections.css';
+import axios from "axios";
+
+const fileTypes = ['JPG', 'JPEG'];
+let baseUrl;
+if (process.env.NODE_ENV === 'production')
+    baseUrl = process.env.REACT_APP_BACKEND_SERVER;
+else
+    baseUrl = 'http://localhost:3001';
 
 const ProfileSections = (props) => {
     const [showModal, setShowModal] = useState(false);
+    const [selectedPicture, setSelectedPicture] = useState(null);
+    const handleChange = (file) => setSelectedPicture(file);
     const handleShow = () => setShowModal(true);
     const handleClose = () => setShowModal(false);
+
     const handleEditPicture = () => {
-        console.log('Edit profile pic');
         handleShow();
     }
+
+    const handleUploadProfilePicture = async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const formData = new FormData();
+        formData.append('uploaded-picture', selectedPicture);
+        formData.append('userId', props.userData._id);
+        try {
+            let url = baseUrl + '/api/uploadProfilePicture';
+            const response = await axios.post(url, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <Container>
-            <Modal centered show={showModal}>
-                <Modal.Header>
+            <Modal centered show={showModal} onHide={handleClose}>
+                <Modal.Header closeButton>
                     <Modal.Title>Update your picture</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-
+                    <form onSubmit={handleUploadProfilePicture} className={'text-center'}>
+                        <FileUploader handleChange={handleChange} name='file' types={fileTypes}/>
+                        <Button type={'submit'} variant={'success'} className={'mt-3'}>
+                            Update
+                        </Button>
+                    </form>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant={'secondary'} onClick={handleClose}>
-                        Cancel
-                    </Button>
-                    <Button variant={'success'}>
-                        Update
-                    </Button>
-                </Modal.Footer>
             </Modal>
             <Row className={'mt-4'} id={'profile-picture'}>
                 <Avatar size={'200px'}/>
