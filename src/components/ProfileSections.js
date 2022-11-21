@@ -3,6 +3,8 @@ import {Link} from "react-router-dom";
 import {Alert, Button, Container, Modal, Row} from "react-bootstrap";
 import {FileUploader} from "react-drag-drop-files";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {useMutation} from "@apollo/client";
+import {UPDATE_PROFILE_PICTURE} from "../utils/mutations";
 import {faUser, faAt, faGear, faUtensils, faDumbbell, faUsersGear, faWeightScale, faPencil} from '@fortawesome/free-solid-svg-icons';
 import Avatar from "./Avatar";
 import Divider from "./Divider";
@@ -18,6 +20,7 @@ else
     baseUrl = 'http://localhost:3001';
 
 const ProfileSections = (props) => {
+    const [updatedProfilePicture] = useMutation(UPDATE_PROFILE_PICTURE);
     const [showModal, setShowModal] = useState(false);
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [selectedPicture, setSelectedPicture] = useState(null);
@@ -40,6 +43,11 @@ const ProfileSections = (props) => {
             const response = await axios.post(url, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
+                }
+            });
+            await updatedProfilePicture({
+                variables: {
+                    url: response.data.location
                 }
             });
             setShowSuccessAlert(true);
