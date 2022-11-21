@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
-import {Button, Container, Modal, Row} from "react-bootstrap";
+import {Alert, Button, Container, Modal, Row} from "react-bootstrap";
 import {FileUploader} from "react-drag-drop-files";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faUser, faAt, faGear, faUtensils, faDumbbell, faUsersGear, faWeightScale, faPencil} from '@fortawesome/free-solid-svg-icons';
@@ -19,6 +19,7 @@ else
 
 const ProfileSections = (props) => {
     const [showModal, setShowModal] = useState(false);
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [selectedPicture, setSelectedPicture] = useState(null);
     const handleChange = (file) => setSelectedPicture(file);
     const handleShow = () => setShowModal(true);
@@ -41,7 +42,12 @@ const ProfileSections = (props) => {
                     "Content-Type": "multipart/form-data"
                 }
             });
-            console.log(response);
+            setShowSuccessAlert(true);
+            setTimeout(() => {
+                handleClose();
+                setShowSuccessAlert(false);
+            }, 1500);
+
         } catch (error) {
             console.error(error);
         }
@@ -53,6 +59,7 @@ const ProfileSections = (props) => {
                 <Modal.Header closeButton>
                     <Modal.Title>Update your picture</Modal.Title>
                 </Modal.Header>
+                <Alert variant={'success'} show={showSuccessAlert}>Profile picture updated!</Alert>
                 <Modal.Body>
                     <form onSubmit={handleUploadProfilePicture} className={'text-center'}>
                         <FileUploader handleChange={handleChange} name='file' types={fileTypes}/>
