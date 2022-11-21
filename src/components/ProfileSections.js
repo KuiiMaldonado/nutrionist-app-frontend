@@ -11,6 +11,7 @@ import Divider from "./Divider";
 import axios from "axios";
 
 import '../assets/css/ProfileSections.css';
+import LoadingSpinners from "./LoadingSpinners";
 
 const fileTypes = ['JPG', 'JPEG'];
 let baseUrl;
@@ -24,6 +25,7 @@ const ProfileSections = (props) => {
     const [showModal, setShowModal] = useState(false);
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [selectedPicture, setSelectedPicture] = useState(null);
+    const [isUploading, setIsUploading] = useState(false);
     const handleChange = (file) => setSelectedPicture(file);
     const handleShow = () => setShowModal(true);
     const handleClose = () => setShowModal(false);
@@ -35,6 +37,7 @@ const ProfileSections = (props) => {
     const handleUploadProfilePicture = async (event) => {
         event.preventDefault();
         event.stopPropagation();
+        setIsUploading(true);
         const formData = new FormData();
         formData.append('uploaded-picture', selectedPicture);
         formData.append('userId', props.userData._id);
@@ -51,10 +54,6 @@ const ProfileSections = (props) => {
                 }
             });
             setShowSuccessAlert(true);
-            setTimeout(() => {
-                handleClose();
-                setShowSuccessAlert(false);
-            }, 1500);
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -69,23 +68,27 @@ const ProfileSections = (props) => {
                 </Modal.Header>
                 <Alert variant={'success'} show={showSuccessAlert}>Profile picture updated!</Alert>
                 <Modal.Body>
-                    <form onSubmit={handleUploadProfilePicture} className={'text-center'}>
-                        <FileUploader handleChange={handleChange} name='file' types={fileTypes}/>
-                        <Button type={'submit'} variant={'success'} className={'mt-3'}>
-                            Update
-                        </Button>
-                    </form>
+                    {isUploading ? (
+                        <LoadingSpinners/>
+                    ) : (
+                        <form onSubmit={handleUploadProfilePicture} className={'text-center'}>
+                            <FileUploader handleChange={handleChange} name='file' types={fileTypes}/>
+                            <Button type={'submit'} variant={'success'} className={'mt-3'}>
+                                Update
+                            </Button>
+                        </form>
+                    )}
                 </Modal.Body>
             </Modal>
             <Row className={'mt-4'} id={'profile-picture'}>
                 <Avatar size={'200px'}/>
             </Row>
-            <div className={'image-button'}>
-                <button onClick={() => handleEditPicture()}>
+            <Row className={'mt-3'}>
+                <Button variant={'primary'} onClick={() => handleEditPicture()}>
                     <FontAwesomeIcon icon={faPencil} size={'xl'}/>
-                    <span>Edit</span>
-                </button>
-            </div>
+                    <span>Edit picture</span>
+                </Button>
+            </Row>
             <Row className={'mt-2'}>
                 <h4>{`${props.userData.firstName} ${props.userData.lastName}`}</h4>
             </Row>
