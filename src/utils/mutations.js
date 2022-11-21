@@ -133,3 +133,12 @@ export const UPDATE_PROFILE_PICTURE = gql`
         }
     }
 `;
+
+export const DELETE_PROFILE_PICTURE = gql`
+    mutation deleteProfilePicture {
+        deleteProfilePicture {
+            _id
+            profilePictureURL
+        }
+    }
+`;
