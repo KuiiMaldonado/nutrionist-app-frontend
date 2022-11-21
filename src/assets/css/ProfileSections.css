@@ -2,17 +2,3 @@
     text-decoration: none;
     color: inherit;
 }
-
-.image-button {
-    position: absolute;
-    width: 65px;
-    top: 360px;
-    left: 35px;
-}
-
-.image-button button {
-    outline: none;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-}
