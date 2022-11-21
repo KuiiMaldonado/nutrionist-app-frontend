@@ -8,9 +8,9 @@ import {UPDATE_PROFILE_PICTURE} from "../utils/mutations";
 import {faUser, faAt, faGear, faUtensils, faDumbbell, faUsersGear, faWeightScale, faPencil} from '@fortawesome/free-solid-svg-icons';
 import Avatar from "./Avatar";
 import Divider from "./Divider";
+import axios from "axios";
 
 import '../assets/css/ProfileSections.css';
-import axios from "axios";
 
 const fileTypes = ['JPG', 'JPEG'];
 let baseUrl;
@@ -55,7 +55,7 @@ const ProfileSections = (props) => {
                 handleClose();
                 setShowSuccessAlert(false);
             }, 1500);
-
+            window.location.reload();
         } catch (error) {
             console.error(error);
         }
