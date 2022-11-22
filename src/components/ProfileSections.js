@@ -4,8 +4,8 @@ import {Alert, Button, Container, Modal, Row} from "react-bootstrap";
 import {FileUploader} from "react-drag-drop-files";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {useMutation} from "@apollo/client";
-import {UPDATE_PROFILE_PICTURE} from "../utils/mutations";
-import {faUser, faAt, faGear, faUtensils, faDumbbell, faUsersGear, faWeightScale, faPencil} from '@fortawesome/free-solid-svg-icons';
+import {UPDATE_PROFILE_PICTURE, DELETE_PROFILE_PICTURE} from "../utils/mutations";
+import {faUser, faAt, faGear, faUtensils, faDumbbell, faUsersGear, faWeightScale, faPencil, faXmark} from '@fortawesome/free-solid-svg-icons';
 import Avatar from "./Avatar";
 import Divider from "./Divider";
 import axios from "axios";
@@ -22,6 +22,7 @@ else
 
 const ProfileSections = (props) => {
     const [updatedProfilePicture] = useMutation(UPDATE_PROFILE_PICTURE);
+    const [deleteProfilePicture] = useMutation(DELETE_PROFILE_PICTURE);
     const [showModal, setShowModal] = useState(false);
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [selectedPicture, setSelectedPicture] = useState(null);
@@ -60,6 +61,19 @@ const ProfileSections = (props) => {
         }
     }
 
+    const handleDeleteProfilePicture = async () => {
+        try {
+            let url = baseUrl + '/api/deleteProfilePicture';
+            await axios.post(url, {
+                userId: props.userData._id
+            });
+            await deleteProfilePicture();
+            window.location.reload();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <Container>
             <Modal centered show={showModal} onHide={handleClose}>
@@ -80,6 +94,9 @@ const ProfileSections = (props) => {
                     )}
                 </Modal.Body>
             </Modal>
+            <button className={'delete-button'}>
+                <FontAwesomeIcon icon={faXmark} size={'lg'} onClick={handleDeleteProfilePicture}/>
+            </button>
             <Row className={'mt-4'} id={'profile-picture'}>
                 <Avatar size={'200px'}/>
             </Row>
