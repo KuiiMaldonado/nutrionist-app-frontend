@@ -11,6 +11,7 @@ export const GET_ME = gql`
             lastName
             birthDate
             isAdmin
+            profilePictureURL
             userMeasures {
                 _id
                 date
@@ -32,6 +33,7 @@ export const GET_USER = gql`
             email
             firstName
             lastName
+            profilePictureURL
             userMeasures {
                 _id
                 date
@@ -40,6 +42,16 @@ export const GET_USER = gql`
                 leanBodyWeight
                 bodyFat
                 bodyType
+            }
+            userDiets {
+                _id
+                eTag
+                fileName
+            }
+            userTrainings {
+                _id
+                eTag
+                fileName
             }
         }
     }

@@ -1,18 +1,110 @@
-import React from "react";
+import React, {useState} from "react";
 import {Link} from "react-router-dom";
-import {Container, Row} from "react-bootstrap";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faUser, faAt, faGear, faUtensils, faDumbbell, faUsersGear, faWeightScale} from '@fortawesome/free-solid-svg-icons';
+import {Alert, Button, Container, Modal, Row} from "react-bootstrap";
+import {FileUploader} from "react-drag-drop-files";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {useMutation} from "@apollo/client";
+import {UPDATE_PROFILE_PICTURE, DELETE_PROFILE_PICTURE} from "../utils/mutations";
+import {faUser, faAt, faGear, faUtensils, faDumbbell, faUsersGear, faWeightScale, faPencil, faXmark} from '@fortawesome/free-solid-svg-icons';
 import Avatar from "./Avatar";
 import Divider from "./Divider";
+import axios from "axios";
 
 import '../assets/css/ProfileSections.css';
+import LoadingSpinners from "./LoadingSpinners";
+
+const fileTypes = ['JPG', 'JPEG'];
+let baseUrl;
+if (process.env.NODE_ENV === 'production')
+    baseUrl = process.env.REACT_APP_BACKEND_SERVER;
+else
+    baseUrl = 'http://localhost:3001';
 
 const ProfileSections = (props) => {
+    const [updatedProfilePicture] = useMutation(UPDATE_PROFILE_PICTURE);
+    const [deleteProfilePicture] = useMutation(DELETE_PROFILE_PICTURE);
+    const [showModal, setShowModal] = useState(false);
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [selectedPicture, setSelectedPicture] = useState(null);
+    const [isUploading, setIsUploading] = useState(false);
+    const handleChange = (file) => setSelectedPicture(file);
+    const handleShow = () => setShowModal(true);
+    const handleClose = () => setShowModal(false);
+
+    const handleEditPicture = () => {
+        handleShow();
+    }
+
+    const handleUploadProfilePicture = async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setIsUploading(true);
+        const formData = new FormData();
+        formData.append('uploaded-picture', selectedPicture);
+        formData.append('userId', props.userData._id);
+        try {
+            let url = baseUrl + '/api/uploadProfilePicture';
+            const response = await axios.post(url, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+            await updatedProfilePicture({
+                variables: {
+                    url: response.data.location
+                }
+            });
+            setShowSuccessAlert(true);
+            window.location.reload();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleDeleteProfilePicture = async () => {
+        try {
+            let url = baseUrl + '/api/deleteProfilePicture';
+            await axios.post(url, {
+                userId: props.userData._id
+            });
+            await deleteProfilePicture();
+            window.location.reload();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <Container>
-            <Row className={'mt-4'}>
+            <Modal centered show={showModal} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Update your picture</Modal.Title>
+                </Modal.Header>
+                <Alert variant={'success'} show={showSuccessAlert}>Profile picture updated!</Alert>
+                <Modal.Body>
+                    {isUploading ? (
+                        <LoadingSpinners/>
+                    ) : (
+                        <form onSubmit={handleUploadProfilePicture} className={'text-center'}>
+                            <FileUploader handleChange={handleChange} name='file' types={fileTypes}/>
+                            <Button type={'submit'} variant={'success'} className={'mt-3'}>
+                                Update
+                            </Button>
+                        </form>
+                    )}
+                </Modal.Body>
+            </Modal>
+            <button className={'delete-button'}>
+                <FontAwesomeIcon icon={faXmark} size={'lg'} onClick={handleDeleteProfilePicture}/>
+            </button>
+            <Row className={'mt-4'} id={'profile-picture'}>
                 <Avatar size={'200px'}/>
+            </Row>
+            <Row className={'mt-3'}>
+                <Button variant={'primary'} onClick={() => handleEditPicture()}>
+                    <FontAwesomeIcon icon={faPencil} size={'xl'}/>
+                    <span>Edit picture</span>
+                </Button>
             </Row>
             <Row className={'mt-2'}>
                 <h4>{`${props.userData.firstName} ${props.userData.lastName}`}</h4>

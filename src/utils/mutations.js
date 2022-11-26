@@ -10,6 +10,7 @@ export const LOGIN_USER = gql `
                 email
                 firstName
                 lastName
+                profilePictureURL
             }
         }
     }
@@ -121,6 +122,23 @@ export const DELETE_TRAINING = gql`
                 eTag
                 fileName
             }
+        }
+    }
+`;
+
+export const UPDATE_PROFILE_PICTURE = gql`
+    mutation updateProfilePicture($url: String!) {
+        updateProfilePicture(url: $url) {
+            profilePictureURL
+        }
+    }
+`;
+
+export const DELETE_PROFILE_PICTURE = gql`
+    mutation deleteProfilePicture {
+        deleteProfilePicture {
+            _id
+            profilePictureURL
         }
     }
 `;
