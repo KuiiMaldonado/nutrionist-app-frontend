@@ -3,6 +3,7 @@ import React from "react";
 import Divider from "../components/Divider";
 import {Container} from "react-bootstrap";
 import StaffCarousel from "../components/StaffCarousel";
+import SocialMedia from "../components/SocialMedia";
 
 const MeetUsPage = () => {
     return (
@@ -13,6 +14,7 @@ const MeetUsPage = () => {
                 <StaffCarousel/>
                 <Divider/>
             </Container>
+            <SocialMedia/>
         </>
     );
 }

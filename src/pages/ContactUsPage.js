@@ -2,6 +2,7 @@ import React from "react";
 import Divider from "../components/Divider";
 import Location from "../components/Location";
 import ContactUsForm from "../components/ContactUsForm";
+import SocialMedia from "../components/SocialMedia";
 
 const ContactUsPage = () => {
     return (
@@ -11,6 +12,7 @@ const ContactUsPage = () => {
             <Divider/>
             <Location/>
             <Divider/>
+            <SocialMedia/>
         </>
     );
 }

@@ -66,7 +66,6 @@ function App() {
                   </Route>
                   <Route path={'*'} element={<NotFound/>}/>
               </Routes>
-              <SocialMedia/>
               <Divider/>
               <Footer/>
           </div>

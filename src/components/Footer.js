@@ -24,7 +24,7 @@ const Footer = () => {
                 <div className={'row'}>
                     <div className={'col-10'}>
                         <p>
-                            Designed by: <b>KuiiMaldonado</b>&copy; 2022 - All rights reserved
+                            Developed by: <b>KuiiMaldonado</b>&copy; 2022 - All rights reserved
                         </p>
                     </div>
                     <div className={'col-2'}>
