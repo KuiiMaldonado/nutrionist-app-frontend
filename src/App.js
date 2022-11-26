@@ -5,7 +5,6 @@ import NavigationBar from "./components/NavigationBar";
 import Footer from "./components/Footer";
 import MeetUsPage from "./pages/MeetUsPage";
 import ContactUsPage from "./pages/ContactUsPage";
-import SocialMedia from "./components/SocialMedia";
 import React from "react";
 import Divider from "./components/Divider";
 import LoginPage from "./pages/LoginPage";
