@@ -9,6 +9,7 @@ import Featurette from "../components/Featurette";
 import featurette_image_1 from '../assets/images/featurette_1.jpg'
 import featurette_image_2 from '../assets/images/featurette_2.jpg';
 import featurette_image_3 from '../assets/images/featurette_3.jpg';
+import SocialMedia from "../components/SocialMedia";
 
 const featurettes = [
     {
@@ -53,6 +54,7 @@ const MainPage = () => {
                     );
                 })}
             </Container>
+            <SocialMedia/>
         </>
     );
 }
