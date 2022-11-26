@@ -1,10 +1,11 @@
 import React, {useState} from "react";
 import {Container, Alert} from "react-bootstrap";
+import ReCAPTCHA from "react-google-recaptcha";
 import {useForm} from "react-hook-form";
 import {useMutation} from "@apollo/client";
 import {LOGIN_USER} from '../utils/mutations';
-import Auth from "../utils/auth";
 
+import Auth from "../utils/auth";
 import '../assets/css/LoginForm.css';
 
 const LoginForm = () => {
@@ -35,6 +36,10 @@ const LoginForm = () => {
         resetField('password');
     };
 
+    const onRecaptchaChange = (value) => {
+        console.log('recaptcha on change: ', value);
+    }
+
     //If we try to access login route, and we are already logged in redirect to profile page.
     if (Auth.loggedIn())
         window.location.assign('/profile');
@@ -64,6 +69,11 @@ const LoginForm = () => {
                                 />
                                 {errors.password && <Alert variant={'danger'}>{errors.password.message}</Alert>}
                             </div>
+                            <ReCAPTCHA id={'captcha-div'}
+                                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                                onChange={onRecaptchaChange}
+                                size={'normal'}
+                            />
                             <div className={'row mt-2 mb-3'}>
                                 <div className={'d-grid gap-2 col-6 mx-auto'}>
                                     <button type={'submit'} disabled={!isValid} className={'btn'} id={'submitButton'}>Login</button>
