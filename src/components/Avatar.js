@@ -2,7 +2,7 @@ import React from "react";
 import {useQuery} from "@apollo/client";
 import {GET_ME} from "../utils/queries";
 
-import profilePicture from '../assets/images/profilePicture.jpeg';
+import profilePicture from '../assets/images/defaultProfilePicture.jpeg';
 import {Image} from "react-bootstrap";
 import LoadingSpinners from "./LoadingSpinners";
 
