@@ -15,6 +15,7 @@ const LoginForm = () => {
     });
     const [login] = useMutation(LOGIN_USER);
     const [showAlert, setShowAlert] = useState(false);
+    const [isCaptchaSolved, setIsCaptchaSolved] = useState(false);
 
     const onSubmit = async (inputs, event) => {
         event.preventDefault();
@@ -38,6 +39,7 @@ const LoginForm = () => {
 
     const onRecaptchaChange = (value) => {
         console.log('recaptcha on change: ', value);
+        setIsCaptchaSolved(true);
     }
 
     //If we try to access login route, and we are already logged in redirect to profile page.
@@ -76,7 +78,7 @@ const LoginForm = () => {
                             />
                             <div className={'row mt-2 mb-3'}>
                                 <div className={'d-grid gap-2 col-6 mx-auto'}>
-                                    <button type={'submit'} disabled={!isValid} className={'btn'} id={'submitButton'}>Login</button>
+                                    <button type={'submit'} disabled={(!isValid || !isCaptchaSolved)} className={'btn'} id={'submitButton'}>Login</button>
                                 </div>
                             </div>
                         </form>
