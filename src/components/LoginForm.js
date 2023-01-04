@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import {Container, Alert} from "react-bootstrap";
 import ReCAPTCHA from "react-google-recaptcha";
 import {useForm} from "react-hook-form";
@@ -6,7 +6,9 @@ import {useMutation} from "@apollo/client";
 import {LOGIN_USER} from '../utils/mutations';
 
 import Auth from "../utils/auth";
+import Utils from "../utils/utils";
 import '../assets/css/LoginForm.css';
+import axios from "axios";
 
 const LoginForm = () => {
     const {register, handleSubmit, resetField, formState:{errors, isValid}} = useForm({
@@ -16,16 +18,25 @@ const LoginForm = () => {
     const [login] = useMutation(LOGIN_USER);
     const [showAlert, setShowAlert] = useState(false);
     const [isCaptchaSolved, setIsCaptchaSolved] = useState(false);
+    const captchaRef = useRef(null);
 
     const onSubmit = async (inputs, event) => {
         event.preventDefault();
         event.stopPropagation();
+
+        const captchaToken = captchaRef.current.getValue();
+        captchaRef.current.reset();
+
+        let url = Utils.getBaseUrl() + '/api/validateCaptcha';
 
         try {
             const {data} = await login( {
                 variables: inputs,
             });
             Auth.login(data.login.token);
+            await axios.post(url, {
+                captchaToken: captchaToken
+            });
         } catch (error) {
             setShowAlert(true);
             setTimeout(() => {
@@ -38,7 +49,6 @@ const LoginForm = () => {
     };
 
     const onRecaptchaChange = (value) => {
-        console.log('recaptcha on change: ', value);
         setIsCaptchaSolved(true);
     }
 
@@ -74,6 +84,7 @@ const LoginForm = () => {
                             <ReCAPTCHA id={'captcha-div'}
                                 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
                                 onChange={onRecaptchaChange}
+                                ref={captchaRef}
                                 size={'normal'}
                             />
                             <div className={'row mt-2 mb-3'}>
