@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Alert, Container} from "react-bootstrap";
 import {useForm} from 'react-hook-form';
 import axios from "axios";
+import Utils from "../utils/utils";
 
 import EmailSentModal from "./EmailSentModal";
 import form_label_image from "../assets/images/form_label_image.jpeg";
@@ -26,12 +27,7 @@ const ContactUsForm = () => {
         try {
             setModalTitle('Sending your message!')
             handleShow();
-            let baseUrl;
-            if (process.env.NODE_ENV === 'production')
-                baseUrl = process.env.REACT_APP_BACKEND_SERVER;
-            else
-                baseUrl = 'http://localhost:3001';
-            let url = baseUrl + '/api/emailJS/sendContactEmail';
+            let url = Utils.getBaseUrl() + '/api/emailJS/sendContactEmail';
             await axios.post(url, data);
             resetField('fullName');
             resetField('user_email');
