@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import Utils from "../utils/utils";
 import {FileUploader} from "react-drag-drop-files";
 import {Col, Container, ListGroup, ListGroupItem, Row, Button, Modal} from "react-bootstrap";
 import {useQuery, useMutation} from "@apollo/client";
@@ -14,11 +15,6 @@ import LoadingSpinners from "./LoadingSpinners";
 import '../assets/css/ManageUsers.css';
 
 const fileTypes = ['PDF'];
-let baseUrl;
-if (process.env.NODE_ENV === 'production')
-    baseUrl = process.env.REACT_APP_BACKEND_SERVER;
-else
-    baseUrl = 'http://localhost:3001';
 
 const Diets = (props) => {
     const {data, loading, refetch} = useQuery(GET_USER_DIETS, {
@@ -53,7 +49,7 @@ const Diets = (props) => {
         formData.append('userId', props.userId);
 
         try {
-            let url = baseUrl + '/api/uploadDiet';
+            let url = Utils.getBaseUrl() + '/api/uploadDiet';
             const response = await axios.post(url, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
@@ -73,7 +69,7 @@ const Diets = (props) => {
 
     const handleDeleteDiet = async () => {
         try {
-            let url = baseUrl + '/api/deleteDiet';
+            let url = Utils.getBaseUrl() + '/api/deleteDiet';
             const dietData = {
                 userId: props.userId,
                 fileName: dietFileName
@@ -96,7 +92,7 @@ const Diets = (props) => {
 
     const handleDownloadDiet = async (dietFileName) => {
         try {
-            let url = baseUrl + '/api/downloadDiet';
+            let url = Utils.getBaseUrl() + '/api/downloadDiet';
             const response = await axios.post(url, {
                 userId: props.userId,
                 fileName: dietFileName

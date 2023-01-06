@@ -9,16 +9,12 @@ import {faUser, faAt, faGear, faUtensils, faDumbbell, faUsersGear, faWeightScale
 import Avatar from "./Avatar";
 import Divider from "./Divider";
 import axios from "axios";
+import Utils from "../utils/utils";
 
 import '../assets/css/ProfileSections.css';
 import LoadingSpinners from "./LoadingSpinners";
 
 const fileTypes = ['JPG', 'JPEG'];
-let baseUrl;
-if (process.env.NODE_ENV === 'production')
-    baseUrl = process.env.REACT_APP_BACKEND_SERVER;
-else
-    baseUrl = 'http://localhost:3001';
 
 const ProfileSections = (props) => {
     const [updatedProfilePicture] = useMutation(UPDATE_PROFILE_PICTURE);
@@ -43,7 +39,7 @@ const ProfileSections = (props) => {
         formData.append('uploaded-picture', selectedPicture);
         formData.append('userId', props.userData._id);
         try {
-            let url = baseUrl + '/api/uploadProfilePicture';
+            let url = Utils.getBaseUrl() + '/api/uploadProfilePicture';
             const response = await axios.post(url, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
@@ -63,7 +59,7 @@ const ProfileSections = (props) => {
 
     const handleDeleteProfilePicture = async () => {
         try {
-            let url = baseUrl + '/api/deleteProfilePicture';
+            let url = Utils.getBaseUrl() + '/api/deleteProfilePicture';
             await axios.post(url, {
                 userId: props.userData._id
             });

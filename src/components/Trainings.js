@@ -12,13 +12,9 @@ import {faCircleXmark} from "@fortawesome/free-regular-svg-icons";
 
 import '../assets/css/ManageUsers.css';
 import axios from "axios";
+import Utils from "../utils/utils";
 
 const fileTypes = ['PDF'];
-let baseUrl;
-if (process.env.NODE_ENV === 'production')
-    baseUrl = process.env.REACT_APP_BACKEND_SERVER;
-else
-    baseUrl = 'http://localhost:3001';
 
 const Trainings = (props) => {
     const {data, loading, refetch} = useQuery(GET_USER_TRAININGS, {
@@ -53,7 +49,7 @@ const Trainings = (props) => {
         formData.append('userId', props.userId);
 
         try {
-            let url = baseUrl + '/api/uploadTraining';
+            let url = Utils.getBaseUrl() + '/api/uploadTraining';
             const response = await axios.post(url, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
@@ -73,7 +69,7 @@ const Trainings = (props) => {
 
     const handleDeleteTraining = async () => {
         try {
-            let url = baseUrl + '/api/deleteTraining';
+            let url = Utils.getBaseUrl() + '/api/deleteTraining';
             const trainingData = {
                 userId: props.userId,
                 fileName: trainingFileName
@@ -96,7 +92,7 @@ const Trainings = (props) => {
 
     const handleDownloadTraining = async (trainingFileName) => {
         try {
-            let url = baseUrl + '/api/downloadTraining';
+            let url = Utils.getBaseUrl() + '/api/downloadTraining';
             const response = await axios.post(url, {
                 userId: props.userId,
                 fileName: trainingFileName

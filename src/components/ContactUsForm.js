@@ -1,7 +1,9 @@
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import {Alert, Container} from "react-bootstrap";
+import ReCAPTCHA from "react-google-recaptcha";
 import {useForm} from 'react-hook-form';
 import axios from "axios";
+import Utils from "../utils/utils";
 
 import EmailSentModal from "./EmailSentModal";
 import form_label_image from "../assets/images/form_label_image.jpeg";
@@ -11,7 +13,9 @@ const ContactUsForm = () => {
     const [showModal, setShowModal] = useState(false);
     const [modalTitle, setModalTitle] = useState('');
     const [modalBody, setModalBody] = useState('');
-    const [isSendingEmail, setIsSendingEmail] = useState(true);
+    const [isCaptchaSolved, setIsCaptchaSolved] = useState(false);
+    const captchaRef = useRef(null);
+    const [isSendingEmail, setIsSendingEmail] = useState(false);
     const {register, resetField, handleSubmit, formState:{errors, isValid}} = useForm({
         mode: 'onChange',
         shouldUseNativeValidation: false
@@ -20,19 +24,27 @@ const ContactUsForm = () => {
     const handleClose = () => setShowModal(false);
     const handleShow = () => setShowModal(true);
 
+    const onRecaptchaChange = (value) => {
+        setIsCaptchaSolved(true);
+    }
+
     const onSubmit = async (data, event) => {
         event.preventDefault();
+        event.stopPropagation();
+
+        const captchaToken = captchaRef.current.getValue();
+        captchaRef.current.reset();
 
         try {
+            setIsSendingEmail(true);
             setModalTitle('Sending your message!')
             handleShow();
-            let baseUrl;
-            if (process.env.NODE_ENV === 'production')
-                baseUrl = process.env.REACT_APP_BACKEND_SERVER;
-            else
-                baseUrl = 'http://localhost:3001';
-            let url = baseUrl + '/api/emailJS/sendContactEmail';
-            await axios.post(url, data);
+            let captchaUrl = Utils.getBaseUrl() + '/api/validateCaptcha';
+            await axios.post(captchaUrl, {
+                captchaToken: captchaToken
+            });
+            let emailUrl = Utils.getBaseUrl() + '/api/emailJS/sendContactEmail';
+            await axios.post(emailUrl, data);
             resetField('fullName');
             resetField('user_email');
             resetField('phoneNumber');
@@ -88,9 +100,15 @@ const ContactUsForm = () => {
                                 />
                                 {errors.message && <Alert variant={'danger'}>{errors.message.message}</Alert>}
                             </div>
+                            <ReCAPTCHA id={'captcha-div'}
+                                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                                onChange={onRecaptchaChange}
+                                ref={captchaRef}
+                                size={'normal'}
+                            />
                             <div className={'row mt-2'}>
                                 <div className={'col'}>
-                                    <button type={'submit'} disabled={!isValid} className={'btn btn-primary'}>Send message</button>
+                                    <button type={'submit'} disabled={(!isValid || !isCaptchaSolved)} className={'btn btn-primary'}>Send message</button>
                                 </div>
                             </div>
                         </form>

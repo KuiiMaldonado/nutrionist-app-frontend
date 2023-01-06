@@ -5,3 +5,9 @@
 #submitButton {
     background-color: #35B54D;
 }
+
+#captcha-div {
+    display: inline-block;
+    margin-top: 10px;
+    text-align: center;
+}
