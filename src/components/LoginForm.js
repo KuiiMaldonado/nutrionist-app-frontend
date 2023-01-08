@@ -17,6 +17,7 @@ const LoginForm = () => {
     });
     const [login] = useMutation(LOGIN_USER);
     const [showAlert, setShowAlert] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [isCaptchaSolved, setIsCaptchaSolved] = useState(false);
     const captchaRef = useRef(null);
 
@@ -24,9 +25,8 @@ const LoginForm = () => {
         event.preventDefault();
         event.stopPropagation();
 
+        setIsLoading(true);
         const captchaToken = captchaRef.current.getValue();
-        captchaRef.current.reset();
-
         let url = Utils.getBaseUrl() + '/api/validateCaptcha';
 
         try {
@@ -46,6 +46,8 @@ const LoginForm = () => {
         }
         resetField('email');
         resetField('password');
+        captchaRef.current.reset();
+        setIsLoading(false);
     };
 
     const onRecaptchaChange = (value) => {
@@ -57,46 +59,48 @@ const LoginForm = () => {
         window.location.assign('/profile');
 
     return (
-        <Container className={'mt-4 mb-4'}>
-            <div className={'row'}>
-                <div className={'col-lg-6 offset-lg-3 text-center'} id={'loginContainer'}>
-                    <h1>Keep it up!</h1>
-                    <div className={'row mt-3'}>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <Alert show={showAlert} variant={'danger'}>
-                                Something's wrong with your credentials. Please try again.
-                            </Alert>
-                            <div className={'row mx-1'}>
-                                <label htmlFor={'email-input'}>Email</label>
-                                <input type={'email'} placeholder={'johnsmith@email.com'} className={'form-control'} id={'email-input'}
-                                       {...register('email', {required: {value: true, message: 'An email is required'},
-                                       pattern: {value: /[\w.]+@[a-z]+\.[a-z]+/, message: 'Input a valid email'}})}
-                                />
-                                {errors.email && <Alert variant={'danger'}>{errors.email.message}</Alert>}
-                            </div>
-                            <div className={'row mt-2 mx-1'}>
-                                <label htmlFor={'password-input'}>Password</label>
-                                <input type={'password'} placeholder={'***************'} className={'form-control'} id={'password-input'}
-                                       {...register('password', {required: {value: true, message: 'Password required'}})}
-                                />
-                                {errors.password && <Alert variant={'danger'}>{errors.password.message}</Alert>}
-                            </div>
-                            <ReCAPTCHA id={'captcha-div'}
-                                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-                                onChange={onRecaptchaChange}
-                                ref={captchaRef}
-                                size={'normal'}
-                            />
-                            <div className={'row mt-2 mb-3'}>
-                                <div className={'d-grid gap-2 col-6 mx-auto'}>
-                                    <button type={'submit'} disabled={(!isValid || !isCaptchaSolved)} className={'btn'} id={'submitButton'}>Login</button>
+        <>
+            <Container className={'mt-4 mb-4'}>
+                <div className={'row'}>
+                    <div className={'col-lg-6 offset-lg-3 text-center'} id={'loginContainer'}>
+                        <h1>Keep it up!</h1>
+                        <div className={'row mt-3'}>
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                <Alert show={showAlert} variant={'danger'}>
+                                    Something's wrong with your credentials. Please try again.
+                                </Alert>
+                                <div className={'row mx-1'}>
+                                    <label htmlFor={'email-input'}>Email</label>
+                                    <input type={'email'} placeholder={'johnsmith@email.com'} className={'form-control'} id={'email-input'}
+                                           {...register('email', {required: {value: true, message: 'An email is required'},
+                                           pattern: {value: /[\w.]+@[a-z]+\.[a-z]+/, message: 'Input a valid email'}})}
+                                    />
+                                    {errors.email && <Alert variant={'danger'}>{errors.email.message}</Alert>}
                                 </div>
-                            </div>
-                        </form>
+                                <div className={'row mt-2 mx-1'}>
+                                    <label htmlFor={'password-input'}>Password</label>
+                                    <input type={'password'} placeholder={'***************'} className={'form-control'} id={'password-input'}
+                                           {...register('password', {required: {value: true, message: 'Password required'}})}
+                                    />
+                                    {errors.password && <Alert variant={'danger'}>{errors.password.message}</Alert>}
+                                </div>
+                                <ReCAPTCHA id={'captcha-div'}
+                                    sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                                    onChange={onRecaptchaChange}
+                                    ref={captchaRef}
+                                    size={'normal'}
+                                />
+                                <div className={'row mt-2 mb-3'}>
+                                    <div className={'d-grid gap-2 col-6 mx-auto'}>
+                                        <button type={'submit'} disabled={(!isValid || !isCaptchaSolved)} className={'btn'} id={'submitButton'}>{isLoading ? <>Logging in...</> : <>Login</>}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </Container>
+            </Container>
+        </>
     );
 }
 
