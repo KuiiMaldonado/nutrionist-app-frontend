@@ -59,7 +59,7 @@ const LoginForm = () => {
     return (
         <Container className={'mt-4 mb-4'}>
             <div className={'row'}>
-                <div className={'col-6 offset-3 text-center'} id={'loginContainer'}>
+                <div className={'col-lg-6 offset-lg-3 text-center'} id={'loginContainer'}>
                     <h1>Keep it up!</h1>
                     <div className={'row mt-3'}>
                         <form onSubmit={handleSubmit(onSubmit)}>
