@@ -65,8 +65,7 @@ const LoginForm = () => {
                 setForgotAlert(true);
                 setForgotMessageAlert('Sending new password!');
                 try {
-                    //TODO implement password generator
-                    const newPassword = '1234567890';
+                    const newPassword = Utils.generatePassword();
                     const {data} = await resetPassword({
                         variables: {email: userEmail, newPassword: newPassword}
                     });
