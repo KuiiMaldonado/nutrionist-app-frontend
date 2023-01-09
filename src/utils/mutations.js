@@ -16,6 +16,17 @@ export const LOGIN_USER = gql `
     }
 `;
 
+export const RESET_PASSWORD = gql `
+    mutation resetPassword($email: String!, $newPassword: String!) {
+        resetPassword(email: $email, newPassword: $newPassword) {
+            username
+            email
+            firstName
+            lastName
+        }
+    }
+`;
+
 export const ADD_PROFILE = gql`
     mutation addProfile($userInput: updatedProfileInput) {
         addProfile(userInput: $userInput) {
