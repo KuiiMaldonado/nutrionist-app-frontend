@@ -54,6 +54,12 @@ const LoginForm = () => {
         setIsCaptchaSolved(true);
     }
 
+    const onForgotPasswordClick = (event) => {
+        event.stopPropagation();
+
+        console.log('Forgot password click');
+    }
+
     //If we try to access login route, and we are already logged in redirect to profile page.
     if (Auth.loggedIn())
         window.location.assign('/profile');
@@ -96,6 +102,7 @@ const LoginForm = () => {
                                     </div>
                                 </div>
                             </form>
+                            <h6 style={{textDecoration: 'underline', cursor: 'pointer'}} onClick={onForgotPasswordClick}>Forgot your password?</h6>
                         </div>
                     </div>
                 </div>
