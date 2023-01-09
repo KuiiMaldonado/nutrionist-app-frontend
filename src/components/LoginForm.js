@@ -3,7 +3,7 @@ import {Container, Alert} from "react-bootstrap";
 import ReCAPTCHA from "react-google-recaptcha";
 import {useForm} from "react-hook-form";
 import {useMutation} from "@apollo/client";
-import {LOGIN_USER} from '../utils/mutations';
+import {LOGIN_USER, RESET_PASSWORD} from '../utils/mutations';
 
 import Auth from "../utils/auth";
 import Utils from "../utils/utils";
@@ -11,12 +11,15 @@ import '../assets/css/LoginForm.css';
 import axios from "axios";
 
 const LoginForm = () => {
-    const {register, handleSubmit, resetField, formState:{errors, isValid}} = useForm({
+    const {register, getValues, getFieldState, handleSubmit, resetField, formState:{errors, isValid}} = useForm({
         mode: 'onChange',
         shouldUseNativeValidation: false
     });
     const [login] = useMutation(LOGIN_USER);
+    const [resetPassword] = useMutation(RESET_PASSWORD);
     const [showAlert, setShowAlert] = useState(false);
+    const [forgotAlert, setForgotAlert] = useState(false);
+    const [forgotMessageAlert, setForgotMessageAlert] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isCaptchaSolved, setIsCaptchaSolved] = useState(false);
     const captchaRef = useRef(null);
@@ -52,6 +55,36 @@ const LoginForm = () => {
 
     const onRecaptchaChange = (value) => {
         setIsCaptchaSolved(true);
+    }
+
+    const onForgotPasswordClick = async (event) => {
+        event.stopPropagation();
+        const userEmail = getValues('email');
+        if (userEmail !== '') {
+            if (getFieldState('email').error === undefined) {
+                setForgotAlert(true);
+                setForgotMessageAlert('Sending new password!');
+                try {
+                    const newPassword = Utils.generatePassword();
+                    const {data} = await resetPassword({
+                        variables: {email: userEmail, newPassword: newPassword}
+                    });
+                    if (!data.resetPassword)
+                        throw new Error('User not found');
+
+                    data.resetPassword.newPassword = newPassword;
+                    let passwordUrl = Utils.getBaseUrl() + '/api/emailJS/resetPasswordEmail';
+                    await axios.post(passwordUrl, data.resetPassword);
+                    setForgotMessageAlert('Email sent!')
+                } catch (error) {
+                    setForgotMessageAlert(error.message);
+                }
+            }
+        }
+        else {
+            setForgotAlert(true);
+            setForgotMessageAlert('Please fill the email field and then click forgot password.');
+        }
     }
 
     //If we try to access login route, and we are already logged in redirect to profile page.
@@ -96,6 +129,8 @@ const LoginForm = () => {
                                     </div>
                                 </div>
                             </form>
+                            <h6 style={{textDecoration: 'underline', cursor: 'pointer'}} onClick={onForgotPasswordClick}>Forgot your password?</h6>
+                            <Alert show={forgotAlert} variant={'info'}>{forgotMessageAlert}</Alert>
                         </div>
                     </div>
                 </div>
