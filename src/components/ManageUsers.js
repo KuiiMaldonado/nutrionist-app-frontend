@@ -11,6 +11,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import '../assets/css/ManageUsers.css';
 import Divider from "./Divider";
 import {useNavigate} from "react-router-dom";
+import Utils from "../utils/utils";
+import axios from "axios";
 
 const ManageUsers = () => {
     if (!Auth.loggedIn()) {
@@ -46,9 +48,15 @@ const ManageUsers = () => {
             const {data} = await deleteProfile({
                 variables: {userId: deleteId}
             });
+            console.log(data);
             if (!data) {
                 throw new Error('Something went wrong');
             }
+            let url = Utils.getBaseUrl() + '/api/deleteUserFiles';
+            const filesData = {
+                userId: deleteId
+            };
+            await axios.post(url, filesData);
         } catch (error) {
             console.error(error);
         }
